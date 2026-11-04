@@ -90,8 +90,9 @@ const LASTFM_API_KEY = "";
 // every .txt file in this folder becomes a blog post. the file name is the post's title,
 // and the text inside can use markdown and html, just like a github readme.
 const BLOG_FOLDER = "assets/blogs/";
-// the github repo this site is in. if the web server can't list the blog folder
-// (or index.html was opened straight from your files), posts are loaded from here instead.
+// the github repo this site is in. it's the backup way to find posts when there's no
+// post list from vercel and the web server can't list the blog folder (github pages, or
+// opening index.html straight from your files). on github pages it's worked out from the url.
 const SITE_REPO = "yaanscoat/yaanscoat-site";
 
 // optional cover pictures for the repos page, like { "my-repo": "assets/images/my-repo.png" }
@@ -518,7 +519,16 @@ function getBlogFiles() {
 }
 
 async function findBlogFiles() {
-  // 1. most web servers (like vs code's live server) show a list of files for a folder
+  // 1. on vercel, the "buildCommand" in vercel.json writes the list of posts to this file on every deploy
+  try {
+    const res = await fetch("assets/blog-posts.txt", { cache: "no-cache" });
+    if (res.ok && !res.headers.get("content-type")?.includes("text/html")) {
+      const names = (await res.text()).split("\n").map((name) => name.trim()).filter((name) => name.toLowerCase().endsWith(".txt"));
+      if (names.length) return names;
+    }
+  } catch {}
+
+  // 2. most other web servers (like vs code's live server) show a list of files for a folder
   try {
     const res = await fetch(BLOG_FOLDER, { cache: "no-cache" });
     if (res.ok) {
@@ -530,7 +540,7 @@ async function findBlogFiles() {
     }
   } catch {}
 
-  // 2. github pages (and opening index.html as a file) can't do that, so ask github instead
+  // 3. github pages (and opening index.html as a file) can't do either, so ask github instead
   const repo = siteRepo();
   if (!repo) return [];
   try {
@@ -541,11 +551,12 @@ async function findBlogFiles() {
   }
 }
 
-// works out which github repo the site is in when it's on github pages
+// works out which github repo the site is in.
+// yaanscoat.github.io/yaanscoat-site/ -> "yaanscoat/yaanscoat-site"
+// yaanscoat.github.io/                -> "yaanscoat/yaanscoat.github.io"
 function siteRepo() {
-  if (SITE_REPO) return SITE_REPO;
   const host = location.hostname;
-  if (!host.endsWith(".github.io")) return "";
+  if (!host.endsWith(".github.io")) return SITE_REPO;
   const owner = host.split(".")[0];
   const folder = location.pathname.split("/")[1];
   return folder && !folder.includes(".") ? `${owner}/${folder}` : `${owner}/${host}`;
