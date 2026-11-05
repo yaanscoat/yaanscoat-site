@@ -1,11 +1,21 @@
-## How I made blackwaves!
+## How I made Blackwaves!!
 
 4th nov 2026
 
-So, in term 2 of the 2025 school year I got given Geometry Dash which lead me to find out about absolute and megahack. I wanted to try out developing stuff but I would vibecode cause I was too lazy. later, i made the nickname yaanscoat based on my real name, coat was a typo but it stuck with me. In term 1 early 2026 around Feb 13 i started making blackwaves based on waves by l4uy which is now called lyra.blackwaves was a UBG/Web Proxy and i used gemini to vibe-code it which was a stupid decision so i scrapped the project cause it went nowhere. Then i made a couple other proxies like anariav2, anariav3, opensea and lunara with opencode. shortly after i stopped cause i wanted to look back at blackwaves so i took the waves codebase and re-made it this time with claude code.
+So, in term 2 of the 2025 school year I started playing Geometry Dash which lead me to find out about absolute and megahack. Because of that I wanted to try out developing stuff but I vibecoded because I was too lazy. later, I made the nickname yaanscoat based on my real name, coat was a typo but it stuck with me. In term 1 early 2026 around Feb 13 I started making Blackwaves based on waves by l4uy which is now called lyra.
 
-i first started truly coding by myself shortly after i stopped using railway my first real lines of code were written on 4th November 2026. i was still truing to find a server for the highly sophisticated blackwaves built on lyra so i scrapped it and restarted with the waves codebase and i started properly coding, it's not like i still don't vibe-code but now that i actually know it's more fun.
+Blackwaves was a UBG/Web Proxy and I used Gemini to vibe-code it which was a stupid decision cause Gemini is pretty trash. So, I scrapped the project cause it went nowhere. Then I made a couple other proxies like Anariav2, Anariav3, Opensea and Lunara with Opencode which you can find the source code for here: 
 
-overtime i plan to self-host blackwaves with more and more features so it will be the best it can be for the ubg community.
+https://github.com/yaansyaans/opensea
+https://github.com/yaansyaans/anariav3
+https://github.com/yaansyaans/lunara
+https://github.com/yaansyaans/anariav2
+https://github.com/yaansyaans/anaria-v2-leak
 
-i made this post as my first blog but i also made it to show that you can do anything as long as you put a mindset to it. if i can do it, you can too.
+Shortly after I stopped cause I wanted to look back at Blackwaves so I took the newly built lyra codebase and re-made it this time with Claude Code but the project got too heavy and railway couldn't handle it and I had to leave the servers behind.
+
+I first started truly coding by myself shortly after I stopped using railway my first real lines of code were written on 4th November 2026 (this website). I was still trying to find a server for the highly sophisticated Blackwaves built on lyra so I scrapped it and restarted with the waves codebase and I started properly coding, it's not like I still don't vibe-code but now that I know how to code, it's more fun.
+
+Overtime I plan to self-host Blackwaves on a dedicated server with more and more features so it will be the best it can be for the UBG community.
+
+I made this post as my first blog but I also made it to show that you can do anything as long as you put a mindset to it. If I can do it, you can too.
