@@ -80,6 +80,7 @@ const BUTTONS = [
   { src: "assets/buttons/gd.png", alt: "geometry dash", href: "https://www.robtopgames.com" },
   { src: "assets/buttons/hollowknight.png", alt: "hollow knight", href: "https://www.hollowknight.com" },
   { src: "assets/buttons/ng.gif", alt: "newgrounds", href: "https://www.newgrounds.com" },
+  { src: "yaans.gif", alt: "my button!!", href: "https://www.yaanson.top" },
 ];
 
 // "listening to" on the home page (from last.fm). leave empty to hide it.
