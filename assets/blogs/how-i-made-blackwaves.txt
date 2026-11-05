@@ -6,11 +6,11 @@ So, in term 2 of the 2025 school year I started playing Geometry Dash which lead
 
 Blackwaves was a UBG/Web Proxy and I used Gemini to vibe-code it which was a stupid decision cause Gemini is pretty trash. So, I scrapped the project cause it went nowhere. Then I made a couple other proxies like Anariav2, Anariav3, Opensea and Lunara with Opencode which you can find the source code for here: 
 
-https://github.com/yaansyaans/opensea
-https://github.com/yaansyaans/anariav3
-https://github.com/yaansyaans/lunara
-https://github.com/yaansyaans/anariav2
-https://github.com/yaansyaans/anaria-v2-leak
+* https://github.com/yaansyaans/opensea
+* https://github.com/yaansyaans/anariav3
+* https://github.com/yaansyaans/lunara
+* https://github.com/yaansyaans/anariav2
+* https://github.com/yaansyaans/anaria-v2-leak
 
 Shortly after I stopped cause I wanted to look back at Blackwaves so I took the newly built lyra codebase and re-made it this time with Claude Code but the project got too heavy and railway couldn't handle it and I had to leave the servers behind.
 
