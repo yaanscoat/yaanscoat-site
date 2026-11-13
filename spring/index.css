@@ -1,0 +1,454 @@
+/*
+  spring: a scrapbook.
+  graph paper, handwriting, a sticky-note menu, the discord card as a taped polaroid,
+  projects on index cards and album covers as little polaroids. content comes from ../all-time/index.js.
+*/
+
+:root {
+  --bg: #f6f0e2;
+  --bar: #fffdf7;
+  --raised: #f1e8d3;
+  --line: #d9cbb0;
+  --line-soft: #e8dcc4;
+  --text: #3b2f2a;
+  --dim: #6b5a50;
+  --faint: #998577;
+  --accent: #e35d8f; /* pink pen */
+  --accent-ink: #ffffff;
+  --leaf: #6aa84f;
+  --font: "Patrick Hand", "Comic Sans MS", cursive;
+  --display: "Caveat", "Patrick Hand", cursive;
+  --display-weight: 700;
+  --banner: linear-gradient(135deg, #ffd1e0 0%, #f6a6c1 45%, #b7e3a1 100%);
+  --tape: rgb(255 214 120 / 0.75);
+  color-scheme: light;
+}
+
+body {
+  font: 400 19px/1.55 var(--font);
+  /* graph paper */
+  background:
+    linear-gradient(rgb(120 160 200 / 0.18) 1px, transparent 1px) 0 0 / 26px 26px,
+    linear-gradient(90deg, rgb(120 160 200 / 0.18) 1px, transparent 1px) 0 0 / 26px 26px,
+    var(--bg);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: underline wavy;
+  text-decoration-thickness: 1px;
+}
+
+a:hover {
+  color: var(--leaf);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+/* ---------- header ---------- */
+
+.scrap-head {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 30px 24px 0;
+  text-align: center;
+}
+
+.scrap-title {
+  display: inline-block;
+  color: var(--text);
+  font: 700 clamp(46px, 8vw, 76px)/1 var(--display);
+  transform: rotate(-2deg);
+  text-decoration: underline wavy var(--accent);
+  text-decoration-thickness: 3px;
+  text-underline-offset: 12px;
+}
+
+.scrap-sub {
+  margin-top: 14px;
+  color: var(--dim);
+  font-size: 20px;
+}
+
+/* sticky notes */
+.scrap-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.scrap-nav .nav-link {
+  display: block;
+  padding: 12px 16px 16px;
+  background: #fff3a8;
+  color: var(--text);
+  font: 700 24px/1 var(--display);
+  text-decoration: none;
+  box-shadow: 0 6px 10px -6px rgb(60 40 20 / 0.5);
+  transform: rotate(-3deg);
+  transition: transform 0.15s;
+}
+
+.scrap-nav .nav-link:nth-child(2) {
+  background: #ffc8dc;
+  transform: rotate(2deg);
+}
+
+.scrap-nav .nav-link:nth-child(3) {
+  background: #c9f0b8;
+  transform: rotate(-1deg);
+}
+
+.scrap-nav .nav-link:nth-child(4) {
+  background: #c5e4ff;
+  transform: rotate(3deg);
+}
+
+.scrap-nav .nav-link:nth-child(5) {
+  background: #ffd9b0;
+  transform: rotate(-2deg);
+}
+
+.scrap-nav .nav-link:hover {
+  color: var(--text);
+  transform: rotate(0) translateY(-3px);
+}
+
+.scrap-nav .nav-link.is-on {
+  outline: 2px dashed var(--accent);
+  outline-offset: 4px;
+}
+
+/* ---------- pieces of paper ---------- */
+
+.page {
+  max-width: 980px;
+  padding: 40px 24px 0;
+}
+
+.view {
+  gap: 36px;
+}
+
+.page-head {
+  text-align: center;
+}
+
+.page-head h1 {
+  font-size: 60px;
+  line-height: 1;
+}
+
+.lede {
+  color: var(--dim);
+}
+
+.season-greeting {
+  margin: 0;
+  color: var(--leaf);
+  font-size: 34px;
+  text-align: center;
+  transform: rotate(-1.5deg);
+}
+
+/* washi tape on top of a piece of paper */
+.about,
+.dc,
+.proj,
+.site-card,
+.post-list,
+.post {
+  position: relative;
+}
+
+.about::before,
+.dc::before,
+.proj::before,
+.post::before {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: -12px;
+  left: 50%;
+  width: 110px;
+  height: 26px;
+  margin-left: -55px;
+  background: var(--tape);
+  transform: rotate(-4deg);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
+}
+
+/* "about me" on lined notebook paper */
+.about,
+.post,
+.post-list {
+  padding: 28px 30px 26px 54px;
+  border: 0;
+  border-radius: 2px;
+  background:
+    linear-gradient(90deg, transparent 38px, #f2a7b9 38px 40px, transparent 40px),
+    repeating-linear-gradient(180deg, var(--bar) 0 29px, #cfe0f2 29px 30px);
+  box-shadow: 0 10px 20px -12px rgb(60 40 20 / 0.5);
+  transform: rotate(0.6deg);
+}
+
+.about p,
+.md {
+  color: var(--text);
+  line-height: 30px;
+}
+
+.section h2,
+.section-head {
+  border-bottom: 0;
+}
+
+.section h2 {
+  font-size: 38px;
+  line-height: 1.1;
+}
+
+/* ---------- the discord card is a polaroid ---------- */
+
+.dc {
+  width: min(560px, 100%);
+  margin: 0 auto;
+  padding: 16px 16px 10px;
+  overflow: visible;
+  border: 0;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 0 14px 24px -14px rgb(60 40 20 / 0.6);
+  transform: rotate(-1.5deg);
+}
+
+.dc-banner {
+  height: 160px;
+}
+
+.dc-body {
+  padding: 0 10px 14px;
+}
+
+.dc-avatar {
+  box-shadow: 0 0 0 6px #fff;
+}
+
+.dc-name {
+  font-size: 44px;
+  line-height: 1;
+}
+
+.dc-tag {
+  border-color: var(--line);
+  background: var(--raised);
+}
+
+.dc-tagline {
+  color: var(--dim);
+}
+
+.dc-foot {
+  border-top: 1px dashed var(--line);
+}
+
+.dc-since {
+  color: var(--faint);
+}
+
+/* ---------- buttons look like little paper labels ---------- */
+
+.btn {
+  height: 38px;
+  border: 2px solid var(--text);
+  border-radius: 6px 14px 8px 12px;
+  background: #fff;
+  color: var(--text);
+  font: 400 19px/1 var(--font);
+}
+
+.btn:hover {
+  background: #fff3a8;
+  color: var(--text);
+}
+
+.btn-primary,
+.btn-primary:hover {
+  border-color: var(--text);
+  background: #ffc8dc;
+  color: var(--text);
+}
+
+/* ---------- projects on index cards ---------- */
+
+.proj-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 34px 26px;
+  border: 0;
+}
+
+.proj {
+  padding: 26px 22px 20px;
+  border: 0;
+  background:
+    linear-gradient(180deg, transparent 52px, #f2a7b9 52px 54px, transparent 54px),
+    repeating-linear-gradient(180deg, #fff 0 27px, #dbe8f4 27px 28px);
+  box-shadow: 0 10px 18px -12px rgb(60 40 20 / 0.55);
+  transform: rotate(-1.2deg);
+}
+
+.proj:nth-child(even) {
+  transform: rotate(1.4deg);
+}
+
+.proj-featured {
+  grid-column: 1 / -1;
+}
+
+.proj h2 {
+  font-size: 46px;
+  line-height: 1;
+}
+
+.proj h3 {
+  font-size: 34px;
+  line-height: 1;
+}
+
+.proj-note {
+  color: var(--text);
+}
+
+.site-card {
+  border: 2px dashed var(--line);
+  border-radius: 4px;
+  background: #fff;
+  transform: rotate(-0.8deg);
+}
+
+.site-card:nth-child(even) {
+  transform: rotate(1deg);
+}
+
+.post-row {
+  border-bottom: 0;
+}
+
+.post-row-title {
+  font-size: 32px;
+}
+
+/* ---------- music: polaroids ---------- */
+
+.library {
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 22px;
+}
+
+.song {
+  padding: 10px 10px 14px;
+  border-radius: 2px;
+  background: #fff;
+  box-shadow: 0 10px 16px -10px rgb(60 40 20 / 0.6);
+  transform: rotate(-2deg);
+  transition: transform 0.15s;
+}
+
+.library li:nth-child(even) .song {
+  transform: rotate(2deg);
+}
+
+.library li:nth-child(3n) .song {
+  transform: rotate(-0.5deg);
+}
+
+.song:hover,
+.library li .song:hover {
+  background: #fff;
+  transform: rotate(0) scale(1.03);
+}
+
+.song-art {
+  border: 0;
+  border-radius: 0;
+}
+
+.song-title {
+  font: 700 22px/1.1 var(--display);
+  text-align: center;
+}
+
+.song-artist {
+  color: var(--faint);
+  text-align: center;
+}
+
+/* ---------- player and footer ---------- */
+
+.player {
+  border-top: 2px dashed var(--line);
+  background: var(--bar);
+  color: var(--text);
+}
+
+.player-title {
+  font: 700 20px/1.1 var(--display);
+}
+
+.player-btn {
+  color: var(--text);
+}
+
+.player-play,
+.player-play:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.player-bar {
+  background: linear-gradient(var(--accent), var(--accent)) 0 / var(--progress, 0%) 100% no-repeat, var(--line);
+}
+
+.site-foot {
+  border-top: 0;
+}
+
+.foot-note,
+.embed-label {
+  color: var(--dim);
+}
+
+.embed-code {
+  background: #fff;
+  color: var(--text);
+}
+
+@media (max-width: 640px) {
+  .scrap-nav {
+    gap: 8px;
+  }
+
+  .scrap-nav .nav-link {
+    padding: 9px 11px 12px;
+    font-size: 20px;
+  }
+
+  .about,
+  .post,
+  .post-list {
+    padding: 24px 18px 22px 46px;
+  }
+
+  .library {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+}

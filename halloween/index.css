@@ -1,0 +1,1339 @@
+/*
+  index.css - all the styles for the site.
+  the colours live in :root at the top. they're picked from the background
+  picture (copper light) and my coat (the brown), so change them there to re-theme everything.
+*/
+
+:root {
+  --espresso: #1c120c; /* darkest brown, behind everything */
+  --card: #21160f; /* the discord card */
+  --glass: rgb(30 19 13 / 0.6); /* see-through panels */
+  --coat: #a47c58; /* coat brown, for small details */
+  --copper: #f2a65e; /* the orange light in the background, for links + highlights */
+  --cream: #f7eadc; /* main text */
+  --latte: #cdb29b; /* quieter text */
+  --ears: #f3b9c6; /* cat-ear pink, only used in the profile effect */
+  --line: rgb(255 222 196 / 0.12);
+  --tint: rgb(255 222 196 / 0.07);
+
+  --col: 680px; /* how wide the page content is */
+  --serif: "Fraunces", Georgia, serif;
+  --sans: "Onest", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: ui-monospace, "Cascadia Code", Consolas, monospace;
+  --ease: cubic-bezier(0.25, 1, 0.35, 1);
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--espresso);
+  scroll-padding-top: 80px;
+}
+
+body {
+  min-height: 100vh;
+  /* no background here, or it would cover up the background picture */
+  color: var(--cream);
+  font: 400 16px/1.65 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  display: block;
+}
+
+::selection {
+  background: rgb(242 166 94 / 0.35);
+}
+
+a {
+  color: var(--copper);
+  text-decoration: underline;
+  text-decoration-color: rgb(242 166 94 / 0.35);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 0.15s;
+}
+
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--copper);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  flex-shrink: 0;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.muted {
+  color: var(--latte);
+}
+
+.small {
+  font-size: 14px;
+}
+
+/* ---------- background picture (assets/img/bg.png), blurred ---------- */
+
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  background: #2a1b12;
+  pointer-events: none;
+}
+
+/* everything else sits on top of the background picture */
+.skip,
+.topbar,
+.page,
+.site-foot {
+  position: relative;
+  z-index: 1;
+}
+
+.backdrop::before,
+.backdrop::after {
+  content: "";
+  position: absolute;
+}
+
+.backdrop::before {
+  inset: -60px; /* bigger than the screen so the blur doesn't leave fuzzy edges */
+  background: url("assets/img/bg.png") center / cover no-repeat;
+  filter: blur(8px); /* change this number for more or less blur */
+}
+
+/* darkens the edges of the picture a tiny bit */
+.backdrop::after {
+  inset: 0;
+  background: radial-gradient(130% 100% at 50% 30%, rgb(22 13 8 / 0), rgb(22 13 8 / 0.35));
+}
+
+.skip {
+  position: absolute;
+  top: -60px;
+  left: 12px;
+  z-index: 50;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: var(--card);
+  color: var(--cream);
+}
+
+.skip:focus {
+  top: 12px;
+}
+
+/* ---------- top bar ---------- */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgb(22 14 9 / 0.55);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  backdrop-filter: blur(16px) saturate(1.3);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar-inner {
+  max-width: calc(var(--col) + 80px);
+  height: 62px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--cream);
+  text-decoration: none;
+  font: 600 19px/1 var(--serif);
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+}
+
+.brand img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.nav-links {
+  position: relative;
+  display: flex;
+  gap: 2px;
+}
+
+.nav-link {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 13px;
+  border-radius: 999px;
+  color: var(--latte);
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.nav-link .icon {
+  font-size: 17px;
+  transition: color 0.15s;
+}
+
+.nav-link:hover,
+.nav-link.is-on {
+  color: var(--cream);
+}
+
+.nav-link.is-on .icon {
+  color: var(--copper);
+}
+
+/* the soft bubble that slides behind the page you're on */
+.nav-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: var(--tint);
+  box-shadow: inset 0 0 0 1px rgb(255 222 196 / 0.14);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.35s var(--ease),
+    width 0.35s var(--ease);
+}
+
+/* ---------- page layout ---------- */
+
+.page {
+  flex: 1;
+  width: 100%;
+  max-width: calc(var(--col) + 32px);
+  margin: 0 auto;
+  padding: 44px 16px 0;
+  outline: none;
+}
+
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.page-head h1 {
+  font: 600 48px/1.05 var(--serif);
+  font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+  letter-spacing: -0.02em;
+}
+
+.lede {
+  margin-top: 10px;
+  color: var(--latte);
+  font-size: 17px;
+}
+
+.sheet {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px 26px;
+}
+
+.sheet h2 {
+  font: 600 22px/1.2 var(--serif);
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  margin-bottom: 12px;
+}
+
+.sheet p + p {
+  margin-top: 14px;
+}
+
+.about p {
+  font-size: 16.5px;
+  line-height: 1.7;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 15px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--tint);
+  color: var(--cream);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.btn:hover {
+  background: rgb(255 222 196 / 0.13);
+}
+
+.btn .icon {
+  font-size: 16px;
+}
+
+.btn-primary {
+  background: var(--copper);
+  border-color: transparent;
+  color: #2a160a;
+}
+
+.btn-primary:hover {
+  background: #f7b87c;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  color: var(--latte);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.back:hover {
+  color: var(--cream);
+}
+
+.empty {
+  color: var(--latte);
+}
+
+.empty strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--cream);
+  font: 600 20px/1.3 var(--serif);
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--latte);
+  font-size: 14px;
+}
+
+.spinner {
+  width: 15px;
+  height: 15px;
+  border: 1.5px solid var(--line);
+  border-top-color: var(--copper);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- discord card ---------- */
+
+.dc {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: rgb(33 22 15 / 0.9);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 40px 80px -40px rgb(0 0 0 / 0.7);
+}
+
+.dc-banner {
+  position: relative;
+  height: 150px;
+  background: #2a1b12 url("assets/img/profile-bg.png") 50% 62% / cover no-repeat;
+}
+
+.dc-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgb(33 22 15 / 0), rgb(33 22 15 / 0.35));
+}
+
+.dc-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dc-body {
+  position: relative;
+  z-index: 1;
+  padding: 0 26px 24px;
+}
+
+.dc-avatar {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin-top: -54px;
+  border-radius: 50%;
+  background: var(--card);
+  box-shadow: 0 0 0 6px var(--card);
+  cursor: pointer;
+}
+
+.dc-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #3a281c;
+}
+
+/* the avatar decoration (cat ears!) sits a bit bigger than the avatar */
+.dc-deco {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  width: 120%;
+  height: 120%;
+  pointer-events: none;
+}
+
+.dc-status {
+  position: absolute;
+  right: 1px;
+  bottom: 1px;
+  width: 24px;
+  height: 24px;
+  border: 5px solid var(--card);
+  border-radius: 50%;
+  background: #80848e;
+}
+
+.dc-status[data-status="online"] {
+  background: #43b581;
+}
+
+.dc-status[data-status="idle"] {
+  background: #f0b232;
+}
+
+.dc-status[data-status="dnd"] {
+  background: #f04747;
+}
+
+.dc-name {
+  margin-top: 14px;
+  font: 600 34px/1.1 var(--serif);
+  font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 96;
+  letter-spacing: -0.015em;
+}
+
+.dc-handle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  margin-top: 4px;
+  color: var(--latte);
+  font-size: 15px;
+}
+
+/* server tag, like the little "meow" tag next to my name on discord */
+.dc-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 1px 8px 1px 5px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--tint);
+  color: var(--cream);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dc-tag img {
+  width: 14px;
+  height: 14px;
+}
+
+.dc-custom {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.dc-custom img {
+  width: 18px;
+  height: 18px;
+}
+
+.dc-tagline {
+  margin-top: 16px;
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+
+.dc-sep {
+  margin: 0 0.4em;
+  color: var(--coat);
+}
+
+.dc-activity {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.activity {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  border-radius: 14px;
+  background: rgb(0 0 0 / 0.2);
+  color: var(--cream);
+  text-decoration: none;
+}
+
+a.activity:hover {
+  background: rgb(0 0 0 / 0.3);
+}
+
+.activity-art {
+  width: 56px;
+  height: 56px;
+  border-radius: 10px;
+  background: #3a281c;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--latte);
+  font-size: 24px;
+}
+
+.activity-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.35;
+}
+
+.activity-text > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.activity-kind {
+  color: var(--latte);
+  font-size: 13px;
+}
+
+.activity-name {
+  font-weight: 600;
+}
+
+.activity-sub {
+  color: var(--latte);
+  font-size: 14px;
+}
+
+.dc-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.dc-since {
+  color: var(--latte);
+  font-size: 13.5px;
+}
+
+.dc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* the profile effect is drawn on this, over the whole card */
+.dc-effect {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ---------- projects ---------- */
+
+.proj-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+}
+
+.proj h2,
+.proj h3 {
+  font-family: var(--serif);
+  font-weight: 600;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  margin: 0;
+}
+
+.proj h2 a,
+.proj h3 a {
+  color: var(--cream);
+  text-decoration: none;
+}
+
+.proj h2 a:hover,
+.proj h3 a:hover {
+  color: var(--copper);
+}
+
+.proj-featured {
+  padding: 30px;
+}
+
+.proj-featured h2 {
+  font-size: 40px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.proj-featured .proj-note {
+  margin-top: 12px;
+  font-size: 18px;
+}
+
+.proj-list {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.proj-row {
+  padding: 22px 0;
+}
+
+.proj-row + .proj-row {
+  border-top: 1px solid var(--line);
+}
+
+.proj-row h3 {
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+.proj-note {
+  margin-top: 6px;
+}
+
+.proj-desc {
+  margin-top: 4px;
+  color: var(--latte);
+  font-size: 15px;
+}
+
+.proj-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--latte);
+  font-size: 13.5px;
+}
+
+.proj-lang::before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--dot, var(--coat));
+}
+
+.proj-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 18px;
+  margin-top: 16px;
+  color: var(--latte);
+  font-size: 13.5px;
+}
+
+.proj-meta .proj-links {
+  margin-left: auto;
+}
+
+.proj-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.proj-featured .proj-links {
+  margin-top: 20px;
+}
+
+.proj-row .btn {
+  height: 32px;
+  padding: 0 12px;
+  font-size: 13.5px;
+}
+
+.more-link {
+  align-self: flex-start;
+  font-size: 15px;
+}
+
+/* ---------- blog ---------- */
+
+.post-list {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+.post-row {
+  display: block;
+  padding: 20px 0;
+  color: var(--cream);
+  text-decoration: none;
+}
+
+.post-row + .post-row {
+  border-top: 1px solid var(--line);
+}
+
+.post-row-title {
+  display: block;
+  font: 600 22px/1.25 var(--serif);
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  transition: color 0.15s;
+}
+
+.post-row:hover .post-row-title {
+  color: var(--copper);
+}
+
+.post-row-text {
+  display: block;
+  margin-top: 4px;
+  min-height: 1.6em;
+  color: var(--latte);
+  font-size: 15px;
+}
+
+.post h1 {
+  font: 600 42px/1.1 var(--serif);
+  font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+  letter-spacing: -0.02em;
+  margin-bottom: 22px;
+}
+
+/* blog posts are markdown, styled a bit like a github readme */
+.md {
+  font-size: 16.5px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+
+.md > * + * {
+  margin-top: 1em;
+}
+
+.md h1,
+.md h2,
+.md h3 {
+  margin-top: 1.6em;
+  font-family: var(--serif);
+  font-weight: 600;
+  font-variation-settings: "SOFT" 100, "WONK" 1;
+  line-height: 1.25;
+}
+
+.md h1 {
+  font-size: 28px;
+}
+
+.md h2 {
+  font-size: 23px;
+}
+
+.md h3 {
+  font-size: 19px;
+}
+
+.md h4,
+.md h5,
+.md h6 {
+  margin-top: 1.4em;
+  font-size: 16px;
+}
+
+.md ul,
+.md ol {
+  padding-left: 1.4em;
+}
+
+.md li + li {
+  margin-top: 0.3em;
+}
+
+.md blockquote {
+  padding-left: 1em;
+  border-left: 2px solid var(--coat);
+  color: var(--latte);
+}
+
+.md img {
+  max-width: 100%;
+  border-radius: 10px;
+}
+
+.md hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+}
+
+.md code {
+  font-family: var(--mono);
+  font-size: 0.88em;
+}
+
+.md :not(pre) > code {
+  padding: 0.15em 0.4em;
+  border-radius: 5px;
+  background: var(--tint);
+}
+
+.md pre {
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgb(0 0 0 / 0.28);
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.md table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+.md th,
+.md td {
+  padding: 6px 13px;
+  border: 1px solid var(--line);
+}
+
+.md kbd {
+  padding: 0 0.35em;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.85em;
+}
+
+/* code colours (highlight.js) */
+.hljs-comment,
+.hljs-quote {
+  color: #a08b7b;
+  font-style: italic;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-meta {
+  color: #f2a65e;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition {
+  color: #c9d59a;
+}
+
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-built_in,
+.hljs-type {
+  color: #f3b9c6;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-name {
+  color: #ffd6a8;
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-property,
+.hljs-variable {
+  color: #e8cdb5;
+}
+
+.hljs-deletion {
+  color: #f08a80;
+}
+
+/* ---------- music ---------- */
+
+.np {
+  display: grid;
+  grid-template-columns: 168px minmax(0, 1fr);
+  align-items: center;
+  gap: 26px;
+}
+
+.np-cover {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #3d2a1d, #1f140e);
+  box-shadow: 0 20px 40px -20px rgb(0 0 0 / 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--coat);
+  font-size: 48px;
+}
+
+.np-cover img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.np-info {
+  min-width: 0;
+}
+
+.np-state {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--latte);
+  font-size: 14px;
+}
+
+.np-state.is-live {
+  color: var(--copper);
+}
+
+.np-title {
+  margin-top: 8px;
+  font: 600 32px/1.12 var(--serif);
+  font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 96;
+  letter-spacing: -0.015em;
+  overflow-wrap: anywhere;
+}
+
+.np-title a {
+  color: var(--cream);
+  text-decoration: none;
+}
+
+.np-title a:hover {
+  color: var(--copper);
+}
+
+.np-artist {
+  margin-top: 6px;
+  font-size: 17px;
+}
+
+.np-album {
+  color: var(--latte);
+  font-size: 15px;
+}
+
+.np-info .btn {
+  margin-top: 18px;
+}
+
+/* the little bouncing bars when a song is playing right now */
+.eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 13px;
+}
+
+.eq span {
+  width: 3px;
+  height: 100%;
+  border-radius: 1px;
+  background: currentColor;
+  transform-origin: bottom;
+  animation: eq 0.9s ease-in-out infinite alternate;
+}
+
+.eq span:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.eq span:nth-child(3) {
+  animation-delay: -0.6s;
+}
+
+@keyframes eq {
+  from {
+    transform: scaleY(0.25);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+
+.tracks {
+  list-style: none;
+}
+
+.tracks a {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 0;
+  color: var(--cream);
+  text-decoration: none;
+}
+
+.tracks li + li a {
+  border-top: 1px solid var(--line);
+}
+
+.tracks a:hover .track-name {
+  color: var(--copper);
+}
+
+.track-art {
+  width: 44px;
+  height: 44px;
+  border-radius: 7px;
+  background: #3a281c;
+  object-fit: cover;
+}
+
+.track-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.35;
+}
+
+.track-text > span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.track-name {
+  font-weight: 500;
+  transition: color 0.15s;
+}
+
+.track-artist {
+  color: var(--latte);
+  font-size: 14px;
+}
+
+.track-when {
+  color: var(--latte);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.track-when.is-live {
+  color: var(--copper);
+}
+
+/* ---------- footer + 88x31 buttons ---------- */
+
+.site-foot {
+  width: 100%;
+  max-width: calc(var(--col) + 32px);
+  margin: 64px auto 0;
+  padding: 0 16px 40px;
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+}
+
+.buttons a {
+  border-radius: 2px;
+}
+
+.buttons img {
+  width: 88px;
+  height: 31px;
+  image-rendering: pixelated;
+}
+
+.foot-note {
+  margin-top: 18px;
+  color: var(--latte);
+  font-size: 13.5px;
+}
+
+/* ---------- smaller screens ---------- */
+
+@media (max-width: 600px) {
+  .topbar-inner {
+    justify-content: center;
+  }
+
+  .brand {
+    display: none;
+  }
+
+  .page {
+    padding-top: 28px;
+  }
+
+  .page-head h1 {
+    font-size: 40px;
+  }
+
+  .sheet {
+    padding: 20px;
+  }
+
+  .dc-body {
+    padding: 0 20px 22px;
+  }
+
+  .dc-name {
+    font-size: 30px;
+  }
+
+  .dc-actions,
+  .dc-actions .btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .proj-featured {
+    padding: 22px 20px;
+  }
+
+  .proj-featured h2 {
+    font-size: 34px;
+  }
+
+  .proj-meta .proj-links {
+    margin-left: 0;
+  }
+
+  .np {
+    grid-template-columns: 112px minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .np-title {
+    font-size: 25px;
+  }
+
+  .post h1 {
+    font-size: 34px;
+  }
+}
+
+@media (max-width: 400px) {
+  .nav-links {
+    gap: 0;
+  }
+
+  .nav-link {
+    gap: 5px;
+    padding: 8px 9px;
+    font-size: 13.5px;
+  }
+
+  .nav-link .icon {
+    font-size: 15px;
+  }
+
+  .np {
+    grid-template-columns: 1fr;
+  }
+
+  .np-cover {
+    width: 140px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .eq span {
+    transform: scaleY(0.6);
+  }
+}
+
+/* read out by screen readers between the tagline bits, but not shown */
+.sr-sep {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* a button that looks like a link */
+.link {
+  color: var(--copper);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- "add my button" box ---------- */
+.my-button {
+  outline: 1px solid rgb(242 166 94 / 0.5);
+  outline-offset: 2px;
+}
+
+.embed {
+  max-width: 460px;
+  margin: 22px auto 0;
+  text-align: left;
+}
+
+.embed-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--cream);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.embed-row {
+  display: flex;
+  gap: 8px;
+}
+
+.embed-code {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgb(0 0 0 / 0.25);
+  color: var(--latte);
+  font: 12px/1.5 var(--mono);
+  resize: none;
+}
+
+.embed-code:focus {
+  outline: 2px solid var(--copper);
+  outline-offset: 1px;
+}
+
+.embed-copy {
+  flex-shrink: 0;
+  height: auto;
+}
+
+/* dark glass behind the footer text so it's readable on the background picture */
+.embed {
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
+
+.foot-note {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}

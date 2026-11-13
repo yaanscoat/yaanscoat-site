@@ -1,0 +1,512 @@
+/*
+  easter: a 1998 geocities homepage.
+  a tiled pastel egg background, a beveled grey "table" in the middle, comic sans and times new roman,
+  rainbow welcome text, an under-construction stripe, a NEW! sticker, rainbow lines and windows 95 buttons.
+  content comes from ../all-time/index.js.
+*/
+
+:root {
+  --bg: #fff5d6;
+  --bar: #ffffff;
+  --raised: #c0c0c0;
+  --line: #808080;
+  --line-soft: #dfdfdf;
+  --text: #000000;
+  --dim: #333366;
+  --faint: #555577;
+  --accent: #0000ee; /* classic link blue */
+  --accent-ink: #ffffff;
+  --font: "Times New Roman", Times, serif;
+  --display: "Comic Sans MS", "Comic Sans", "Chalkboard SE", cursive;
+  --display-weight: 700;
+  --banner: repeating-linear-gradient(90deg, #ffb3c7 0 20px, #ffd6a5 20px 40px, #fff3a8 40px 60px, #a0e7c8 60px 80px, #b8d8ff 80px 100px, #d4b8ff 100px 120px);
+  --rainbow: linear-gradient(90deg, #ff0000, #ff8000, #ffff00, #00c000, #0080ff, #8000ff);
+  --win-out: inset -2px -2px 0 #404040, inset 2px 2px 0 #ffffff, inset -3px -3px 0 #808080, inset 3px 3px 0 #dfdfdf;
+  color-scheme: light;
+}
+
+body {
+  font: 400 18px/1.4 var(--font);
+  /* a tiled pattern of little pastel eggs */
+  background:
+    radial-gradient(ellipse 7px 9px at 15px 15px, #ffb3c7 98%, transparent) 0 0 / 60px 60px,
+    radial-gradient(ellipse 7px 9px at 45px 45px, #a0e7c8 98%, transparent) 0 0 / 60px 60px,
+    radial-gradient(ellipse 6px 8px at 45px 15px, #d4b8ff 98%, transparent) 0 0 / 60px 60px,
+    radial-gradient(ellipse 6px 8px at 15px 45px, #ffd6a5 98%, transparent) 0 0 / 60px 60px,
+    #fff5d6;
+}
+
+a {
+  color: #0000ee;
+  text-decoration: underline;
+}
+
+a:visited {
+  color: #551a8b;
+}
+
+a:hover {
+  color: #ff0000;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  font-weight: 700;
+}
+
+/* ---------- the page "table" ---------- */
+
+.geo {
+  width: min(820px, calc(100% - 20px));
+  margin: 20px auto 0;
+  padding: 16px 20px 0;
+  border: 4px outset #dfdfdf;
+  background: #fff;
+  text-align: center;
+}
+
+.geo-welcome {
+  background: var(--rainbow);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font: 700 clamp(28px, 5vw, 44px)/1.15 var(--display);
+  filter: drop-shadow(2px 2px 0 #000);
+}
+
+.geo-construction {
+  margin: 14px 0;
+  padding: 6px;
+  border: 2px solid #000;
+  background: repeating-linear-gradient(-45deg, #ffd700 0 16px, #000 16px 32px);
+  color: #000;
+  font: 700 16px/1 var(--display);
+}
+
+.geo-construction::before,
+.geo-construction::after {
+  content: " ⚠ ";
+}
+
+.geo-construction {
+  text-shadow: 0 0 4px #ffd700, 0 0 4px #ffd700, 0 0 4px #ffd700, 0 0 6px #ffd700;
+}
+
+.geo-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 4px 0;
+  font: 700 20px/1.4 var(--display);
+}
+
+.geo-nav .nav-link {
+  display: inline;
+  padding: 0 10px;
+  color: #0000ee;
+  font-size: inherit;
+  text-decoration: underline;
+}
+
+.geo-nav .nav-link + .nav-link::before,
+.geo-new + .nav-link::before {
+  content: "|";
+  margin-right: 10px;
+  margin-left: -10px;
+  color: #000;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.geo-nav .nav-link.is-on {
+  color: #ff00ff;
+}
+
+.geo-new {
+  display: inline-block;
+  margin-left: -4px;
+  padding: 0 4px;
+  background: #ff0000;
+  color: #ffff00;
+  font: 700 11px/1.4 Arial, sans-serif;
+  transform: rotate(-10deg);
+  animation: geo-blink 1s steps(1) infinite;
+}
+
+@keyframes geo-blink {
+  50% {
+    visibility: hidden;
+  }
+}
+
+.geo-rule {
+  height: 6px;
+  margin: 16px 0;
+  border: 0;
+  background: var(--rainbow);
+}
+
+/* ---------- content ---------- */
+
+.page {
+  max-width: none;
+  padding: 0;
+}
+
+.view {
+  gap: 22px;
+}
+
+.page-head h1 {
+  color: #8000ff;
+  font-size: 38px;
+  text-shadow: 3px 3px 0 #ffd6a5;
+}
+
+.lede {
+  color: #000;
+  font-style: italic;
+}
+
+.season-greeting {
+  margin: 0;
+  color: #ff00ff;
+  font-size: 30px;
+  text-shadow: 2px 2px 0 #fff3a8;
+  animation: geo-wiggle 2s ease-in-out infinite;
+}
+
+@keyframes geo-wiggle {
+  50% {
+    transform: rotate(-2deg) scale(1.04);
+  }
+}
+
+.section h2,
+.section-head {
+  border-bottom: 0;
+}
+
+.section h2 {
+  display: inline-block;
+  padding: 2px 16px;
+  background: #000080;
+  color: #fff;
+  font-size: 22px;
+}
+
+.section-head {
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.about,
+.md {
+  text-align: left;
+}
+
+.about h2 {
+  display: table;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about p,
+.md {
+  color: #000;
+}
+
+/* ---------- discord card: a beveled table ---------- */
+
+.dc {
+  border: 3px ridge #c0c0c0;
+  border-radius: 0;
+  background: #fffbe8;
+}
+
+.dc-banner {
+  height: 70px;
+}
+
+.dc-body {
+  padding: 0 18px 18px;
+}
+
+.dc-avatar {
+  margin: -40px auto 0;
+  width: 84px;
+  height: 84px;
+  border: 3px ridge #c0c0c0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.dc-avatar-img,
+.dc-status {
+  border-radius: 0;
+}
+
+.dc-name {
+  color: #000080;
+  font-size: 30px;
+}
+
+.dc-handle,
+.dc-custom,
+.dc-actions {
+  justify-content: center;
+}
+
+.dc-foot {
+  flex-direction: column;
+  border-top: 2px groove #c0c0c0;
+}
+
+.dc-tag {
+  border: 2px outset #dfdfdf;
+  border-radius: 0;
+  background: #c0c0c0;
+  color: #000;
+}
+
+.dc-tagline {
+  color: #000;
+}
+
+.dc-sep {
+  color: #ff00ff;
+}
+
+.dc-since {
+  color: #555;
+  font-style: italic;
+}
+
+/* ---------- windows 95 buttons ---------- */
+
+.btn {
+  height: 32px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 0;
+  background: #c0c0c0;
+  box-shadow: var(--win-out);
+  color: #000;
+  font: 400 15px/1 Tahoma, "MS Sans Serif", Arial, sans-serif;
+}
+
+.btn:hover {
+  background: #c0c0c0;
+  color: #000;
+}
+
+.btn:active {
+  box-shadow: inset 2px 2px 0 #404040, inset -2px -2px 0 #fff;
+}
+
+.btn-primary,
+.btn-primary:hover {
+  background: #c0c0c0;
+  color: #000;
+  outline: 1px dotted #000;
+  outline-offset: -5px;
+}
+
+/* ---------- lists ---------- */
+
+.proj-list,
+.post-list {
+  border: 0;
+  text-align: left;
+}
+
+.proj,
+.post-row {
+  border-bottom: 2px groove #c0c0c0;
+}
+
+.proj h2 a,
+.proj h3 a,
+.post-row-title {
+  color: #0000ee;
+  text-decoration: underline;
+}
+
+.proj-top {
+  justify-content: flex-start;
+}
+
+.proj-lang::before {
+  filter: none;
+}
+
+.proj h2::before,
+.proj h3::before {
+  content: "✿ ";
+  color: #ff69b4;
+}
+
+.site-grid {
+  text-align: left;
+}
+
+.site-card {
+  border: 3px ridge #c0c0c0;
+  border-radius: 0;
+  background: #fffbe8;
+}
+
+.site-name {
+  color: #0000ee;
+  text-decoration: underline;
+}
+
+.more-link {
+  align-self: center;
+}
+
+/* music: a table of eggs */
+.library {
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.song {
+  align-items: center;
+  border-radius: 0;
+  text-align: center;
+}
+
+.song:hover {
+  background: #ffffcc;
+}
+
+.song-art {
+  width: 80%;
+  aspect-ratio: 4 / 5;
+  border: 3px ridge #c0c0c0;
+  border-radius: 50% 50% 46% 46% / 60% 60% 40% 40%;
+}
+
+.song-art::after {
+  right: 50%;
+  bottom: 10%;
+  transform: translateX(50%);
+}
+
+.song-title {
+  max-width: 100%;
+  color: #0000ee;
+  font: 700 15px/1.2 var(--display);
+  text-decoration: underline;
+}
+
+.song-artist {
+  max-width: 100%;
+  color: #555;
+}
+
+/* ---------- player and footer ---------- */
+
+.player {
+  border-top: 2px solid #fff;
+  background: #c0c0c0;
+  box-shadow: inset 0 1px 0 #dfdfdf;
+  color: #000;
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+.player-art {
+  border: 2px inset #dfdfdf;
+  border-radius: 0;
+}
+
+.player-artist,
+.player-seek {
+  color: #333;
+}
+
+.player-btn {
+  border-radius: 0;
+  background: #c0c0c0;
+  box-shadow: var(--win-out);
+  color: #000;
+}
+
+.player-btn:hover {
+  background: #c0c0c0;
+  color: #000;
+}
+
+.player-play,
+.player-play:hover {
+  border-radius: 0;
+  background: #c0c0c0;
+  color: #000;
+}
+
+.player-bar {
+  height: 8px;
+  border-radius: 0;
+  background: linear-gradient(#000080, #000080) 0 / var(--progress, 0%) 100% no-repeat, #fff;
+  box-shadow: inset 1px 1px 0 #808080;
+}
+
+.site-foot {
+  margin-top: 0;
+  padding: 0 0 20px;
+  border: 0;
+}
+
+.geo-counter span {
+  display: inline-block;
+  padding: 1px 6px;
+  border: 2px inset #dfdfdf;
+  background: #000;
+  color: #00ff00;
+  font: 700 18px/1 "Courier New", monospace;
+  letter-spacing: 0.2em;
+}
+
+.geo-ring {
+  margin: 10px 0 16px;
+  font-weight: 700;
+}
+
+.foot-note,
+.embed-label {
+  color: #000;
+}
+
+.embed {
+  text-align: left;
+}
+
+.embed-code {
+  border: 2px inset #dfdfdf;
+  border-radius: 0;
+  background: #fff;
+  color: #000;
+}
+
+@media (max-width: 640px) {
+  .geo {
+    width: 100%;
+    margin-top: 0;
+    padding: 12px 12px 0;
+    border-width: 0 0 4px;
+  }
+
+  .geo-nav {
+    font-size: 17px;
+  }
+
+  .library {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

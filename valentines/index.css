@@ -1,0 +1,502 @@
+/*
+  valentine's day: a phone texting app.
+  a phone in the middle of a pink page, with a status bar, a contact header, tabs,
+  and everything shown as chat bubbles. songs are "sent" as little music messages.
+  content comes from ../all-time/index.js.
+*/
+
+:root {
+  --bg: #ffe4ec;
+  --bar: #ffffff;
+  --raised: #f4f1f4;
+  --line: #f1d3de;
+  --line-soft: #f7e6ed;
+  --text: #2b1a22;
+  --dim: #6e5560;
+  --faint: #a08893;
+  --accent: #ff4f87; /* my bubbles */
+  --accent-ink: #ffffff;
+  --them: #efecef; /* other bubbles */
+  --font: "Nunito", -apple-system, "Segoe UI", sans-serif;
+  --display: var(--font);
+  --display-weight: 800;
+  --banner: linear-gradient(135deg, #ff9ab8 0%, #ff4f87 60%, #c2185b 100%);
+  color-scheme: light;
+}
+
+body {
+  font: 400 16px/1.45 var(--font);
+  background:
+    radial-gradient(circle at 20% 20%, #fff 0 2px, transparent 3px) 0 0 / 60px 60px,
+    linear-gradient(160deg, #ffe4ec, #ffc9da 60%, #ffb3cb) fixed;
+}
+
+a {
+  color: #d81b60;
+}
+
+a:hover {
+  color: #8e0e3d;
+}
+
+/* ---------- the phone ---------- */
+
+.phone {
+  position: relative;
+  width: min(420px, calc(100% - 24px));
+  margin: 30px auto 0;
+  padding: 10px 0 18px;
+  border: 12px solid #1b1418;
+  border-radius: 52px;
+  background: #fff;
+  box-shadow: 0 40px 80px -30px rgb(120 20 60 / 0.55), inset 0 0 0 2px #3a2a32;
+}
+
+.phone-status {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 2px 26px 8px;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.phone-status span:last-child {
+  text-align: right;
+}
+
+.phone-notch {
+  width: 96px;
+  height: 26px;
+  border-radius: 99px;
+  background: #1b1418;
+}
+
+.chat-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 18px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.chat-head img {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
+.chat-name {
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.chat-online {
+  color: #2bb673;
+  font-size: 13px;
+}
+
+.chat-online::before {
+  content: "● ";
+}
+
+/* the menu is a segmented control */
+.chat-tabs {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  margin: 10px 14px 0;
+  padding: 3px;
+  border-radius: 12px;
+  background: var(--raised);
+}
+
+.chat-tabs .nav-link {
+  flex: 1;
+  justify-content: center;
+  padding: 6px 2px;
+  border-radius: 9px;
+  color: var(--dim);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.chat-tabs .nav-link.is-on {
+  background: #fff;
+  color: var(--text);
+  box-shadow: 0 1px 4px rgb(0 0 0 / 0.12);
+}
+
+.chat-typing {
+  margin: 4px 16px 0;
+  color: var(--faint);
+  font-size: 13px;
+}
+
+.chat-typing span {
+  animation: typing 1.2s infinite;
+}
+
+.chat-typing span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.chat-typing span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+/* ---------- the conversation ---------- */
+
+.page {
+  max-width: none;
+  padding: 16px 14px 0;
+}
+
+.view {
+  gap: 10px;
+}
+
+/* headings become the little date stamps between messages */
+.page-head,
+.section h2,
+.section-head {
+  margin: 6px 0 2px;
+  padding: 0;
+  border: 0;
+  text-align: center;
+}
+
+.page-head h1,
+.section h2 {
+  color: var(--faint);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.section-head {
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.section-head .count {
+  font-size: 11px;
+}
+
+/* their messages: grey bubbles on the left */
+.lede,
+.about p,
+.proj,
+.post-row,
+.site-card,
+.post {
+  max-width: 85%;
+  margin: 0;
+  padding: 9px 14px;
+  border: 0;
+  border-radius: 20px 20px 20px 6px;
+  background: var(--them);
+  color: var(--text);
+  font-size: 15px;
+}
+
+.lede {
+  margin: 6px auto 0 0;
+  text-align: left;
+}
+
+.about p + p {
+  margin-top: 6px;
+}
+
+/* my messages: pink bubbles on the right */
+.season-greeting {
+  align-self: flex-end;
+  max-width: 85%;
+  margin: 0;
+  padding: 9px 14px;
+  border-radius: 20px 20px 6px 20px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.season-greeting::after {
+  content: "delivered";
+  display: block;
+  margin-top: 2px;
+  color: rgb(255 255 255 / 0.8);
+  font-size: 10px;
+  font-weight: 400;
+  text-align: right;
+}
+
+/* ---------- discord card: a contact card ---------- */
+
+.dc {
+  align-self: center;
+  width: 92%;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 6px 20px -10px rgb(120 20 60 / 0.35);
+}
+
+.dc-banner {
+  height: 80px;
+}
+
+.dc-body {
+  padding: 0 16px 16px;
+  text-align: center;
+}
+
+.dc-avatar {
+  width: 76px;
+  height: 76px;
+  margin: -38px auto 0;
+  box-shadow: 0 0 0 4px #fff;
+}
+
+.dc-status {
+  border-color: #fff;
+}
+
+.dc-name {
+  margin-top: 8px;
+  font-size: 21px;
+}
+
+.dc-handle,
+.dc-custom,
+.dc-actions {
+  justify-content: center;
+}
+
+.dc-tag {
+  background: var(--raised);
+  border-color: var(--line);
+}
+
+.dc-tagline {
+  color: var(--dim);
+  font-size: 13px;
+}
+
+.dc-sep {
+  color: var(--accent);
+}
+
+.dc-foot {
+  flex-direction: column;
+  border-top-color: var(--line);
+}
+
+.dc-actions,
+.dc-actions .btn {
+  flex: 1;
+  justify-content: center;
+}
+
+.activity {
+  text-align: left;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  height: 34px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--raised);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.btn:hover {
+  background: #e7e2e7;
+  color: var(--text);
+}
+
+.btn-primary,
+.btn-primary:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ---------- lists become messages ---------- */
+
+.proj-list,
+.post-list,
+.site-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border: 0;
+}
+
+.proj h2,
+.proj h3,
+.post-row-title,
+.site-name {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.proj-top {
+  flex-direction: column;
+  gap: 0;
+}
+
+.proj-desc,
+.post-row-text,
+.site-about {
+  color: var(--dim);
+  font-size: 13px;
+}
+
+.proj-meta {
+  margin-top: 8px;
+  font-size: 12px;
+}
+
+.proj-meta .proj-links {
+  margin-left: 0;
+}
+
+.proj .btn {
+  height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+.site-card:hover {
+  background: #e7e2e7;
+}
+
+.more-link {
+  align-self: center;
+  font-size: 13px;
+}
+
+/* music: songs sent as little music messages, from me (right side) */
+.library {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.library li {
+  width: 80%;
+}
+
+.song {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  column-gap: 10px;
+  align-items: center;
+  padding: 7px;
+  border-radius: 18px 18px 6px 18px;
+  background: var(--accent);
+  color: #fff;
+}
+
+.song:hover {
+  background: #e83d76;
+}
+
+.song-art {
+  grid-row: span 2;
+  border: 0;
+  border-radius: 12px;
+}
+
+.song-art::after {
+  display: none;
+}
+
+.song-title {
+  margin: 0;
+  font-size: 14px;
+}
+
+.song-artist {
+  color: rgb(255 255 255 / 0.85);
+  font-size: 12px;
+}
+
+.song.is-playing {
+  box-shadow: 0 0 0 3px #ffd1e0;
+}
+
+.song.is-playing .song-title {
+  text-decoration: none;
+}
+
+.song.is-playing .song-title::after {
+  content: " ♪";
+}
+
+/* ---------- player and footer ---------- */
+
+.player {
+  border-top: 1px solid var(--line);
+  background: rgb(255 255 255 / 0.95);
+  color: var(--text);
+}
+
+.player-btn {
+  color: var(--text);
+}
+
+.player-btn:hover {
+  background: var(--raised);
+}
+
+.player-play,
+.player-play:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.site-foot {
+  border-top: 0;
+}
+
+.foot-note,
+.embed-label {
+  color: #8e3a5a;
+}
+
+.embed-code {
+  background: #fff;
+  color: var(--text);
+}
+
+@media (max-width: 520px) {
+  /* on a phone, the site IS the phone */
+  .phone {
+    width: 100%;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .phone-status {
+    display: none;
+  }
+}

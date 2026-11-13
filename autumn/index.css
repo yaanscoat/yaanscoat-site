@@ -1,0 +1,511 @@
+/*
+  autumn: an old newspaper, "The yaanscoat Gazette".
+  sepia paper, a blackletter masthead, ruled dateline, articles set in columns, sepia photos,
+  and the music page as classified ads. content comes from ../all-time/index.js.
+*/
+
+:root {
+  --bg: #efe3cc;
+  --bar: #f6ecd9;
+  --raised: #e6d6b8;
+  --line: #2a2118;
+  --line-soft: #c9b48f;
+  --text: #1d160e;
+  --dim: #4a3b2a;
+  --faint: #7a6650;
+  --accent: #8a2d12; /* rusty red ink */
+  --accent-ink: #f6ecd9;
+  --font: "Old Standard TT", Georgia, "Times New Roman", serif;
+  --display: "Old Standard TT", Georgia, serif;
+  --display-weight: 700;
+  --banner: url("../all-time/assets/buttons/yaanscoat.gif");
+  color-scheme: light;
+}
+
+body {
+  font: 400 17px/1.55 var(--font);
+  background:
+    radial-gradient(120% 90% at 50% 40%, transparent 55%, rgb(120 80 30 / 0.18)) fixed,
+    var(--bg);
+}
+
+a {
+  color: var(--text);
+  text-decoration-color: var(--text);
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+/* ---------- masthead ---------- */
+
+.paper-head {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 18px 24px 0;
+  text-align: center;
+}
+
+.paper-dateline {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  border-top: 3px double var(--line);
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  font-style: italic;
+}
+
+.paper-title {
+  margin: 12px 0 2px;
+  font: 400 clamp(44px, 9vw, 96px)/1 "UnifrakturMaguntia", "Old English Text MT", serif;
+}
+
+.paper-title a {
+  text-decoration: none;
+}
+
+.paper-motto {
+  font-size: 14px;
+  font-style: italic;
+}
+
+.paper-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px 0;
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+  border-bottom: 3px double var(--line);
+}
+
+.paper-nav .nav-link {
+  padding: 7px 18px;
+  color: var(--text);
+  font-size: 15px;
+  font-variant: small-caps;
+  letter-spacing: 0.06em;
+}
+
+.paper-nav .nav-link + .nav-link {
+  border-left: 1px solid var(--line-soft);
+}
+
+.paper-nav .nav-link.is-on {
+  background: var(--text);
+  color: var(--bg);
+}
+
+/* ---------- the page ---------- */
+
+.page {
+  max-width: 1080px;
+  padding: 26px 24px 0;
+}
+
+.view {
+  gap: 26px;
+}
+
+.page-head {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+}
+
+.page-head h1 {
+  font-size: clamp(40px, 7vw, 72px);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.lede {
+  color: var(--dim);
+  font-size: 20px;
+  font-style: italic;
+}
+
+.season-greeting {
+  margin: 0;
+  color: var(--accent);
+  font-size: 15px;
+  font-style: italic;
+  text-align: center;
+  font-family: var(--font);
+  font-weight: 400;
+}
+
+.season-greeting::before,
+.season-greeting::after {
+  content: " ~ ";
+}
+
+.section h2 {
+  border-bottom: 1px solid var(--line);
+  font-size: 28px;
+}
+
+/* "about me" set in three columns, with a big first letter */
+.about {
+  column-count: 3;
+  column-gap: 28px;
+  column-rule: 1px solid var(--line-soft);
+  text-align: justify;
+  hyphens: auto;
+}
+
+.about h2 {
+  column-span: all;
+  text-align: center;
+}
+
+.about p {
+  color: var(--text);
+}
+
+.about p:first-of-type::first-letter {
+  float: left;
+  padding: 4px 8px 0 0;
+  font: 700 64px/0.8 var(--display);
+}
+
+/* ---------- the discord card is a profile photo with a caption ---------- */
+
+.dc {
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--bar);
+}
+
+.dc-banner {
+  display: none;
+}
+
+.dc-body {
+  display: contents;
+}
+
+.dc-avatar {
+  grid-row: 1 / span 8;
+  width: 180px;
+  height: 180px;
+  margin: 20px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--raised);
+  box-shadow: none;
+}
+
+.dc-avatar-img,
+.dc-deco {
+  border-radius: 0;
+  filter: grayscale(1) sepia(0.45) contrast(1.1);
+}
+
+.dc-status {
+  border-color: var(--bar);
+  border-radius: 0;
+}
+
+.dc-name,
+.dc-handle,
+.dc-custom,
+.dc-tagline,
+.dc-activity,
+.dc-foot {
+  grid-column: 2;
+  padding-right: 22px;
+}
+
+.dc-name {
+  margin-top: 20px;
+  font-size: 38px;
+}
+
+.dc-tagline {
+  color: var(--dim);
+  font-style: italic;
+}
+
+.dc-sep {
+  color: var(--accent);
+}
+
+.dc-tag {
+  border-color: var(--line);
+  border-radius: 0;
+  background: none;
+  color: var(--text);
+}
+
+.dc-foot {
+  margin-bottom: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.dc-since {
+  color: var(--faint);
+  font-style: italic;
+}
+
+/* ---------- plain printed buttons ---------- */
+
+.btn {
+  height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: none;
+  color: var(--text);
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+}
+
+.btn:hover {
+  background: var(--raised);
+  color: var(--text);
+}
+
+.btn-primary,
+.btn-primary:hover {
+  border-color: var(--text);
+  background: var(--text);
+  color: var(--bg);
+}
+
+/* ---------- articles ---------- */
+
+.proj-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 26px;
+  border-top: 3px double var(--line);
+}
+
+.proj {
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.proj-featured {
+  grid-column: 1 / -1;
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+}
+
+.proj-featured .proj-top,
+.proj-featured .proj-meta {
+  justify-content: center;
+}
+
+.proj-featured h2 {
+  font-size: 46px;
+}
+
+.proj h3 {
+  font-size: 24px;
+  line-height: 1.15;
+}
+
+.proj-note {
+  color: var(--text);
+  font-style: italic;
+}
+
+.proj-lang,
+.proj-meta,
+.proj-desc {
+  color: var(--faint);
+}
+
+.site-grid {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.site-card {
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: var(--bar);
+}
+
+.site-icon {
+  filter: grayscale(1) sepia(0.4);
+}
+
+.post-list {
+  border-top: 3px double var(--line);
+}
+
+.post-row-title {
+  font-size: 30px;
+}
+
+.post-row-text {
+  font-style: italic;
+}
+
+.md {
+  color: var(--text);
+  column-width: 320px;
+  column-gap: 30px;
+  column-rule: 1px solid var(--line-soft);
+}
+
+/* ---------- music: the classified ads ---------- */
+
+.section-head h2::after {
+  content: " (classifieds)";
+  color: var(--faint);
+  font-size: 16px;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.library {
+  display: block;
+  column-width: 230px;
+  column-gap: 20px;
+  column-rule: 1px solid var(--line-soft);
+}
+
+.library li {
+  break-inside: avoid;
+  border-bottom: 1px dotted var(--line-soft);
+}
+
+.song {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  column-gap: 10px;
+  padding: 8px 4px;
+  border-radius: 0;
+}
+
+.song:hover {
+  background: var(--raised);
+}
+
+.song-art {
+  grid-row: span 2;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  filter: grayscale(1) sepia(0.4) contrast(1.1);
+}
+
+.song-art::after {
+  display: none;
+}
+
+.song-title {
+  margin: 0;
+  font-size: 15px;
+}
+
+.song-artist {
+  color: var(--faint);
+  font-style: italic;
+}
+
+/* ---------- player and footer ---------- */
+
+.player {
+  border-top: 3px double var(--line);
+  background: var(--bar);
+  color: var(--text);
+}
+
+.player-art {
+  border-radius: 0;
+  filter: grayscale(1) sepia(0.4);
+}
+
+.player-btn {
+  color: var(--text);
+}
+
+.player-play,
+.player-play:hover {
+  background: var(--text);
+  color: var(--bg);
+}
+
+.site-foot {
+  max-width: 1080px;
+  margin: 60px auto 0;
+  border-top: 3px double var(--line);
+}
+
+.paper-end {
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.buttons img {
+  filter: sepia(0.35);
+}
+
+.foot-note,
+.embed-label {
+  color: var(--dim);
+  font-style: italic;
+}
+
+.embed-code {
+  border-color: var(--line);
+  border-radius: 0;
+  background: var(--bar);
+  color: var(--text);
+}
+
+@media (max-width: 900px) {
+  .about {
+    column-count: 2;
+  }
+
+  .proj-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .paper-dateline span:nth-child(2) {
+    display: none;
+  }
+
+  .paper-nav .nav-link {
+    padding: 6px 10px;
+  }
+
+  .about {
+    column-count: 1;
+  }
+
+  .proj-list {
+    grid-template-columns: 1fr;
+  }
+
+  .dc {
+    grid-template-columns: 1fr;
+  }
+
+  .dc-avatar {
+    grid-row: auto;
+    width: 140px;
+    height: 140px;
+    margin: 20px 20px 0;
+  }
+
+  .dc-name,
+  .dc-handle,
+  .dc-custom,
+  .dc-tagline,
+  .dc-activity,
+  .dc-foot {
+    grid-column: 1;
+    padding: 0 20px;
+  }
+}

@@ -1,0 +1,222 @@
+/*
+  seasons.css - shared styles for the seasonal sites.
+  it goes on top of all-time/index.css and re-colours it using the colours
+  each season sets in its own index.css (--accent, --banner, --display and so on).
+*/
+
+:root {
+  --text-soft: color-mix(in srgb, var(--text) 82%, var(--bg));
+  --white: var(--text);
+}
+
+body {
+  background:
+    radial-gradient(90% 60% at 50% -10%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%) fixed,
+    var(--bg);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+:focus-visible {
+  outline-color: var(--accent);
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+/* headings use the season's font */
+h1,
+h2,
+h3,
+.brand span,
+.dc-name,
+.season-greeting,
+.site-name,
+.post-row-title {
+  font-family: var(--display);
+  font-weight: var(--display-weight, 700);
+}
+
+.season-greeting {
+  margin-bottom: -10px;
+  color: var(--accent);
+  font-size: 24px;
+  line-height: 1.2;
+}
+
+/* ---------- top bar ---------- */
+
+.topbar {
+  background: color-mix(in srgb, var(--bar) 88%, transparent);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.nav-link {
+  color: var(--dim);
+}
+
+.nav-link:hover,
+.nav-link.is-on {
+  color: var(--text);
+}
+
+.nav-link.is-on .icon {
+  color: var(--accent);
+}
+
+.nav-link.is-on span {
+  text-decoration-color: var(--accent);
+}
+
+/* ---------- text ---------- */
+
+.about p,
+.dc-tagline,
+.proj-note,
+.md,
+.np-artist {
+  color: var(--text-soft);
+}
+
+.dc-sep {
+  color: var(--accent);
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  border-color: var(--line);
+  background: var(--bar);
+  color: var(--text);
+}
+
+.btn:hover {
+  background: var(--raised);
+  color: var(--text);
+}
+
+.btn-primary,
+.btn-primary:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.btn-primary:hover {
+  filter: brightness(1.08);
+}
+
+/* ---------- discord card ---------- */
+
+.dc {
+  border-color: var(--line);
+}
+
+.dc-banner {
+  background: var(--banner);
+}
+
+.dc-tag {
+  background: var(--raised);
+}
+
+.activity {
+  background: var(--bg);
+}
+
+/* ---------- cards, pictures and lists ---------- */
+
+.song-art,
+.activity-art,
+.track-art,
+.site-icon,
+.player-art {
+  border-color: var(--line);
+  background: var(--bar);
+}
+
+.site-card:hover {
+  border-color: var(--accent);
+}
+
+.song.is-playing .song-title {
+  text-decoration-color: var(--accent);
+}
+
+.song-art::after {
+  background-color: var(--accent);
+}
+
+.spinner {
+  border-top-color: var(--accent);
+}
+
+.md pre,
+.md :not(pre) > code,
+.embed-code {
+  border-color: var(--line);
+  background: var(--bar);
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-meta,
+.hljs-title,
+.hljs-section,
+.hljs-name {
+  color: var(--accent);
+}
+
+/* ---------- player ---------- */
+
+.player-play,
+.player-play:hover {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.player-btn:hover {
+  background: var(--raised);
+  color: var(--text);
+}
+
+.player-bar {
+  background: linear-gradient(var(--accent), var(--accent)) 0 / var(--progress, 0%) 100% no-repeat, var(--line);
+}
+
+.player-bar::-webkit-slider-thumb {
+  background: var(--text);
+}
+
+.player-bar::-moz-range-thumb {
+  background: var(--text);
+}
+
+/* ---------- footer ---------- */
+
+.site-foot {
+  border-color: var(--line);
+}
+
+.my-button {
+  outline-color: var(--accent);
+}
+
+.foot-note a {
+  color: var(--text-soft);
+}
+
+/* the falling snow / leaves / hearts. it sits over the page but you can click straight through it */
+.season-effect {
+  position: fixed;
+  inset: 0;
+  z-index: 15;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}

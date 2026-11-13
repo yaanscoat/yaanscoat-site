@@ -1,0 +1,516 @@
+/*
+  new year: a brutalist poster.
+  giant type, a stacked logo, huge menu words, a gold countdown bar to next year,
+  an outlined "HAPPY NEW YEAR" marquee, thick borders and zero rounded corners.
+  content comes from ../all-time/index.js.
+*/
+
+:root {
+  --bg: #000;
+  --bar: #000;
+  --raised: #111;
+  --line: #fff;
+  --line-soft: #333;
+  --text: #fff;
+  --dim: #d9d9d9;
+  --faint: #9a9a9a;
+  --accent: #ffd166;
+  --accent-ink: #000;
+  --font: "Archivo", Arial, sans-serif;
+  --display: "Archivo Black", "Arial Black", sans-serif;
+  --display-weight: 400;
+  --banner: radial-gradient(circle at 18% 35%, #ffd166 0 3px, transparent 4px), radial-gradient(circle at 62% 22%, #ff6fae 0 3px, transparent 4px), radial-gradient(circle at 84% 60%, #7ae7ff 0 3px, transparent 4px), radial-gradient(circle at 38% 70%, #ffffff 0 2px, transparent 3px), #000;
+}
+
+body {
+  font: 400 18px/1.5 var(--font);
+  background: #000;
+}
+
+a {
+  color: var(--text);
+  text-decoration-color: var(--accent);
+  text-decoration-thickness: 3px;
+}
+
+a:hover {
+  color: #000;
+  background: var(--accent);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+/* ---------- header ---------- */
+
+.ny-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  border-bottom: 4px solid #fff;
+}
+
+.ny-logo {
+  padding: 22px 28px;
+  border-right: 4px solid #fff;
+  color: #fff;
+  font: 400 clamp(54px, 9vw, 120px)/0.85 var(--display);
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+
+.ny-logo:hover {
+  background: var(--accent);
+  color: #000;
+}
+
+.ny-nav {
+  display: grid;
+  align-content: stretch;
+}
+
+.ny-nav .nav-link {
+  display: flex;
+  align-items: center;
+  padding: 2px 24px;
+  border-bottom: 2px solid #fff;
+  color: #fff;
+  font: 400 clamp(20px, 3vw, 34px)/1.1 var(--display);
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.ny-nav .nav-link:last-child {
+  border-bottom: 0;
+}
+
+.ny-nav .nav-link:hover,
+.ny-nav .nav-link.is-on {
+  background: var(--accent);
+  color: #000;
+}
+
+/* ---------- countdown and marquee ---------- */
+
+.ny-count {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 20px;
+  padding: 10px 28px;
+  border-bottom: 4px solid #fff;
+  background: var(--accent);
+  color: #000;
+}
+
+.ny-count-label {
+  font: 400 18px/1 var(--display);
+  text-transform: uppercase;
+}
+
+.ny-count-time {
+  font: 400 clamp(30px, 6vw, 64px)/1 var(--display);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+.ny-marquee {
+  overflow: hidden;
+  border-bottom: 4px solid #fff;
+  white-space: nowrap;
+}
+
+.ny-marquee > div {
+  display: inline-flex;
+  animation: ny-scroll 30s linear infinite;
+}
+
+.ny-marquee span {
+  padding: 8px 0;
+  color: transparent;
+  font: 400 64px/1 var(--display);
+  -webkit-text-stroke: 2px #fff;
+}
+
+@keyframes ny-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---------- the page ---------- */
+
+.page {
+  max-width: 1200px;
+  padding: 40px 28px 0;
+}
+
+.view {
+  gap: 0;
+}
+
+.view > * {
+  border: 4px solid #fff;
+  margin-top: -4px; /* borders share a line, like a poster grid */
+  padding: 24px;
+}
+
+.view > .season-greeting {
+  margin: 0;
+  background: #fff;
+  color: #000;
+  font-size: clamp(30px, 5vw, 56px);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.page-head h1 {
+  font-size: clamp(56px, 11vw, 150px);
+  line-height: 0.85;
+}
+
+.lede {
+  margin-top: 14px;
+  color: var(--accent);
+  font-size: 22px;
+}
+
+.section h2,
+.section-head {
+  border-bottom: 4px solid #fff;
+}
+
+.section h2 {
+  margin: -24px -24px 18px;
+  padding: 12px 24px;
+  font-size: 34px;
+}
+
+.section-head {
+  margin: -24px -24px 18px;
+  padding: 12px 24px;
+}
+
+.section-head h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.about p {
+  color: #fff;
+  font-size: 22px;
+  line-height: 1.45;
+}
+
+/* ---------- discord card ---------- */
+
+.dc {
+  padding: 0;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.dc-banner {
+  height: 140px;
+  border-bottom: 4px solid #fff;
+}
+
+.dc-avatar {
+  border-radius: 0;
+  box-shadow: 0 0 0 4px #fff;
+}
+
+.dc-avatar-img {
+  border-radius: 0;
+}
+
+.dc-status {
+  border-radius: 0;
+  border-color: #000;
+}
+
+.dc-body {
+  padding: 0 24px 24px;
+}
+
+.dc-name {
+  margin-top: 16px;
+  font-size: clamp(36px, 6vw, 70px);
+  line-height: 0.95;
+}
+
+.dc-tag {
+  border: 2px solid #fff;
+  border-radius: 0;
+  background: #000;
+}
+
+.dc-tagline {
+  font-size: 20px;
+}
+
+.dc-sep {
+  color: var(--accent);
+}
+
+.dc-foot {
+  border-top: 4px solid #fff;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  height: 46px;
+  border: 3px solid #fff;
+  border-radius: 0;
+  background: #000;
+  color: #fff;
+  font: 400 16px/1 var(--display);
+  text-transform: uppercase;
+}
+
+.btn:hover {
+  background: #fff;
+  color: #000;
+}
+
+.btn-primary,
+.btn-primary:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #000;
+}
+
+/* ---------- lists ---------- */
+
+.proj-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  padding: 0;
+  border-top: 4px solid #fff;
+}
+
+.proj {
+  padding: 24px;
+  border-bottom: 4px solid #fff;
+}
+
+.proj:nth-child(odd):not(.proj-featured) {
+  border-right: 4px solid #fff;
+}
+
+.proj-featured {
+  grid-column: 1 / -1;
+  background: var(--accent);
+  color: #000;
+}
+
+.proj-featured a,
+.proj-featured .proj-note,
+.proj-featured .proj-desc,
+.proj-featured .proj-meta,
+.proj-featured .proj-lang {
+  color: #000;
+}
+
+.proj-featured h2 {
+  font-size: clamp(44px, 8vw, 96px);
+  line-height: 0.9;
+}
+
+.proj h3 {
+  font-size: 34px;
+}
+
+.proj:last-child {
+  border-bottom: 0;
+}
+
+.site-grid {
+  gap: 0;
+  padding: 0;
+}
+
+.site-card {
+  border: 0;
+  border-right: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+  border-radius: 0;
+  background: #000;
+}
+
+.site-card:hover {
+  background: var(--accent);
+  color: #000;
+}
+
+.site-card:hover .site-url,
+.site-card:hover .site-about {
+  color: #000;
+}
+
+.site-name {
+  font-family: var(--display);
+  font-size: 24px;
+  text-transform: uppercase;
+}
+
+.post-list {
+  border: 0;
+}
+
+.post-row {
+  border-bottom: 4px solid #fff;
+}
+
+.post-row:hover {
+  background: var(--accent);
+  color: #000;
+}
+
+.post-row:hover .post-row-text {
+  color: #000;
+}
+
+.post-row-title {
+  font: 400 34px/1 var(--display);
+  text-transform: uppercase;
+}
+
+/* music: a hard grid of square covers */
+.library {
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0;
+  margin: 0 -24px -24px;
+  border-top: 4px solid #fff;
+}
+
+.library li {
+  border-right: 4px solid #fff;
+  border-bottom: 4px solid #fff;
+}
+
+.song {
+  padding: 0 0 12px;
+  border-radius: 0;
+}
+
+.song:hover,
+.song.is-playing {
+  background: var(--accent);
+  color: #000;
+}
+
+.song:hover .song-artist,
+.song.is-playing .song-artist {
+  color: #000;
+}
+
+.song-art {
+  border: 0;
+  border-bottom: 4px solid #fff;
+  border-radius: 0;
+}
+
+.song-title,
+.song-artist {
+  padding: 0 12px;
+}
+
+.song-title {
+  font: 400 16px/1.2 var(--display);
+  text-transform: uppercase;
+}
+
+.song.is-playing .song-title {
+  text-decoration: none;
+}
+
+/* ---------- player and footer ---------- */
+
+.player {
+  border-top: 4px solid #fff;
+  background: #000;
+}
+
+.player-art,
+.player-btn {
+  border-radius: 0;
+}
+
+.player-title {
+  font-family: var(--display);
+  text-transform: uppercase;
+}
+
+.player-play,
+.player-play:hover {
+  border-radius: 0;
+  background: var(--accent);
+  color: #000;
+}
+
+.site-foot {
+  margin-top: 60px;
+  border-top: 4px solid #fff;
+}
+
+.foot-note,
+.embed-label {
+  color: var(--dim);
+}
+
+.embed-code {
+  border: 3px solid #fff;
+  border-radius: 0;
+  background: #000;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ny-marquee > div {
+    transform: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .ny-head {
+    grid-template-columns: 1fr;
+  }
+
+  .ny-logo {
+    border-right: 0;
+    border-bottom: 4px solid #fff;
+  }
+
+  .ny-nav .nav-link {
+    padding: 6px 20px;
+  }
+
+  .ny-marquee span {
+    font-size: 40px;
+  }
+
+  .page {
+    padding: 24px 14px 0;
+  }
+
+  .proj-list {
+    grid-template-columns: 1fr;
+  }
+
+  .proj:nth-child(odd):not(.proj-featured) {
+    border-right: 0;
+  }
+
+  .library {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

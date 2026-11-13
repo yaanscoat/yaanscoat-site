@@ -1,0 +1,515 @@
+/*
+  winter: a computer terminal.
+  a bash window with a title bar, the menu as "$ cd" commands, a prompt line before every page,
+  markdown-style headings and an ls-style music list. content comes from ../all-time/index.js.
+*/
+
+:root {
+  --bg: #04070d;
+  --bar: #0b1220;
+  --raised: #13203a;
+  --line: #22406a;
+  --line-soft: #172a47;
+  --text: #cfe6ff;
+  --dim: #8fb2d6;
+  --faint: #5d7fa3;
+  --accent: #9fd3ff;
+  --accent-ink: #04070d;
+  --green: #7ee787;
+  --font: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --display: var(--font);
+  --display-weight: 700;
+  --banner: none;
+}
+
+body {
+  font: 400 15px/1.65 var(--font);
+  background: radial-gradient(80% 60% at 50% 0%, #0d1b33, transparent 70%) fixed, var(--bg);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: underline dotted;
+}
+
+a:hover {
+  color: var(--green);
+}
+
+/* ---------- the terminal window ---------- */
+
+.term {
+  width: min(960px, calc(100% - 24px));
+  margin: 28px auto 0;
+  overflow: hidden;
+  border: 1px solid #2a3b55;
+  border-radius: 10px;
+  background: var(--bar);
+  box-shadow: 0 30px 80px -30px #000, 0 0 0 1px #000;
+}
+
+.term-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 12px;
+  background: linear-gradient(180deg, #2a3446, #1c2433);
+  color: #9aa7bb;
+  font-size: 12px;
+}
+
+.term-bar > span:last-child {
+  flex: 1;
+  margin-right: 54px;
+  text-align: center;
+}
+
+.term-dots {
+  display: flex;
+  gap: 7px;
+}
+
+.term-dots i {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ff5f57;
+}
+
+.term-dots i:nth-child(2) {
+  background: #febc2e;
+}
+
+.term-dots i:nth-child(3) {
+  background: #28c840;
+}
+
+.term-body {
+  padding: 18px 22px 28px;
+}
+
+.term-motd {
+  color: var(--faint);
+  font-size: 13px;
+}
+
+.term-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  margin: 14px 0 6px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--line);
+}
+
+/* inline-block keeps the space after "cd" */
+.term-nav .nav-link {
+  display: inline-block;
+  gap: 0;
+  padding: 0 4px;
+  color: var(--text);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.term-nav .nav-link span {
+  color: var(--green);
+}
+
+.term-nav .nav-link:hover,
+.term-nav .nav-link.is-on {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.term-nav .nav-link.is-on span,
+.term-nav .nav-link:hover span {
+  color: var(--accent-ink);
+  text-decoration: none;
+}
+
+/* ---------- a prompt before every page ---------- */
+
+.page {
+  max-width: none;
+  padding: 0;
+}
+
+.view {
+  gap: 22px;
+  padding-top: 8px;
+}
+
+.view::before {
+  content: "yaanscoat@winter:~$ cat " attr(data-title);
+  color: var(--green);
+  font-weight: 700;
+}
+
+/* blinking cursor at the end of the page */
+.view::after {
+  content: "yaanscoat@winter:~$ █";
+  color: var(--green);
+  animation: blink-cursor 1s steps(1) infinite;
+}
+
+@keyframes blink-cursor {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* markdown-style headings */
+.page-head h1::before {
+  content: "# ";
+  color: var(--faint);
+}
+
+.section h2::before {
+  content: "## ";
+  color: var(--faint);
+}
+
+.page-head h1 {
+  font-size: 26px;
+}
+
+.lede::before {
+  content: "> ";
+  color: var(--faint);
+}
+
+.season-greeting {
+  margin: 0;
+  color: var(--green);
+  font-size: 15px;
+}
+
+.season-greeting::before {
+  content: "echo \"";
+}
+
+.season-greeting::after {
+  content: "\"";
+}
+
+.section h2,
+.section-head {
+  border-bottom: 0;
+  font-size: 18px;
+}
+
+.about p,
+.md,
+.proj-note {
+  color: var(--text);
+}
+
+/* ---------- the discord card is the output of "whoami" ---------- */
+
+.dc {
+  border: 1px dashed var(--line);
+  border-radius: 0;
+  background: none;
+}
+
+.dc-banner {
+  display: none;
+}
+
+.dc-body {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  column-gap: 22px;
+  padding: 20px 22px;
+}
+
+.dc-body > * {
+  grid-column: 2;
+}
+
+.dc-avatar {
+  grid-column: 1;
+  grid-row: 1 / span 6;
+  margin: 0;
+  border-radius: 6px;
+  box-shadow: 0 0 0 1px var(--line);
+}
+
+.dc-avatar-img {
+  border-radius: 6px;
+}
+
+.dc-status {
+  border-radius: 0;
+}
+
+.dc-name {
+  margin: 0;
+  font-size: 22px;
+}
+
+.dc-name::before {
+  content: "user: ";
+  color: var(--faint);
+  font-weight: 400;
+}
+
+.dc-tag {
+  border-radius: 0;
+  background: none;
+}
+
+.dc-tagline {
+  color: var(--dim);
+}
+
+.dc-sep {
+  color: var(--green);
+}
+
+.dc-foot {
+  border-top: 1px dashed var(--line);
+}
+
+/* ---------- [ bracket buttons ] ---------- */
+
+.btn {
+  height: auto;
+  padding: 2px 6px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--accent);
+  font: 700 14px/1.6 var(--font);
+}
+
+.btn::before {
+  content: "[ ";
+  color: var(--faint);
+}
+
+.btn::after {
+  content: " ]";
+  color: var(--faint);
+}
+
+.btn .icon {
+  display: none;
+}
+
+.btn:hover,
+.btn-primary,
+.btn-primary:hover {
+  border: 0;
+  background: none;
+  color: var(--green);
+}
+
+.btn:hover {
+  background: var(--raised);
+}
+
+/* ---------- lists ---------- */
+
+.proj-list,
+.post-list {
+  border-top: 1px dashed var(--line);
+}
+
+.proj,
+.post-row {
+  border-bottom: 1px dashed var(--line);
+}
+
+.proj h2::before,
+.proj h3::before {
+  content: "drwxr-xr-x  ";
+  color: var(--faint);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.proj h2 {
+  font-size: 20px;
+}
+
+.proj h3 {
+  font-size: 17px;
+}
+
+.post-row-title::before {
+  content: "-rw-r--r--  ";
+  color: var(--faint);
+  font-size: 13px;
+  font-weight: 400;
+}
+
+.post-row-title {
+  font-size: 17px;
+}
+
+.site-card {
+  border: 1px dashed var(--line);
+  border-radius: 0;
+  background: none;
+}
+
+.site-icon {
+  border-radius: 0;
+}
+
+/* music: like the output of "ls -la" */
+.library {
+  display: block;
+}
+
+.song {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  padding: 3px 6px;
+  border-radius: 0;
+}
+
+.song:hover,
+.song.is-playing {
+  background: var(--raised);
+}
+
+.song-art {
+  width: 28px;
+  border-radius: 0;
+  border-color: var(--line);
+  font-size: 12px;
+}
+
+.song-art::after {
+  display: none;
+}
+
+.song-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.song-title::before {
+  content: "./";
+  color: var(--faint);
+}
+
+.song.is-playing .song-title {
+  color: var(--green);
+  text-decoration: none;
+}
+
+.song.is-playing .song-title::after {
+  content: "  ← playing";
+  color: var(--green);
+}
+
+.song-artist {
+  color: var(--faint);
+  font-size: 13px;
+}
+
+/* ---------- player: a status bar like tmux ---------- */
+
+.player {
+  border-top: 0;
+  background: #1f6f3f;
+  color: #e9ffe9;
+  font-family: var(--font);
+}
+
+.player-artist,
+.player-seek {
+  color: #b9f5c9;
+}
+
+.player-art {
+  border-radius: 0;
+}
+
+.player-btn {
+  border-radius: 0;
+  color: #e9ffe9;
+}
+
+.player-btn:hover {
+  background: #2b8a52;
+  color: #fff;
+}
+
+.player-play,
+.player-play:hover {
+  border-radius: 0;
+  background: #e9ffe9;
+  color: #1f6f3f;
+}
+
+.player-bar {
+  background: linear-gradient(#e9ffe9, #e9ffe9) 0 / var(--progress, 0%) 100% no-repeat, #165a32;
+}
+
+.site-foot {
+  border-top: 0;
+}
+
+.foot-note,
+.embed-label {
+  color: var(--faint);
+}
+
+.embed-code {
+  border-radius: 0;
+}
+
+@media (max-width: 640px) {
+  .term {
+    width: 100%;
+    margin-top: 0;
+    border-radius: 0;
+  }
+
+  .term-bar > span:last-child {
+    margin-right: 0;
+    font-size: 10px;
+  }
+
+  .term-body {
+    padding: 14px 14px 22px;
+  }
+
+  .dc-body {
+    grid-template-columns: 1fr;
+  }
+
+  .dc-avatar,
+  .dc-body > * {
+    grid-column: 1;
+  }
+
+  .dc-avatar {
+    grid-row: auto;
+    width: 80px;
+    height: 80px;
+    margin-bottom: 12px;
+  }
+
+  .proj h2::before,
+  .proj h3::before,
+  .post-row-title::before {
+    content: "";
+  }
+
+  .song {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+
+  .song-artist {
+    display: none;
+  }
+}

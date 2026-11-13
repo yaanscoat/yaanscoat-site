@@ -1,0 +1,701 @@
+/*
+  frutiger aero: a 2008 indie personal website.
+  fixed-width glossy layout, web 2.0 "beta" logo, sidebar boxes (fish bowl, status, blinkies,
+  webring, visitor counter), a scrolling ticker, 80x15 badges and a windows media player music list.
+  the background is ../fruitiger-bg.jpg. content comes from ../all-time/index.js.
+*/
+
+:root {
+  --bg: #dff4ff;
+  --bar: #ffffff;
+  --raised: #eaf6ff;
+  --line: #9fcdee;
+  --line-soft: #cfe6f7;
+  --text: #123a5a;
+  --dim: #3b6585;
+  --faint: #6a8aa3;
+  --accent: #0a7fd0;
+  --accent-ink: #ffffff;
+  --font: Verdana, Tahoma, "Segoe UI", sans-serif;
+  --display: "Trebuchet MS", "Segoe UI", sans-serif;
+  --display-weight: 700;
+  --gloss: linear-gradient(180deg, rgb(255 255 255 / 0.9) 0%, rgb(255 255 255 / 0.35) 49%, rgb(255 255 255 / 0) 50%, rgb(255 255 255 / 0.25) 100%);
+  --aqua: linear-gradient(180deg, #8fd8ff 0%, #2f9be0 100%);
+  --banner: linear-gradient(180deg, #2e9fe6 0%, #8fd6ff 70%, #c9f0ff 100%);
+  color-scheme: light;
+}
+
+body {
+  font: 13px/1.6 var(--font);
+  background: #5ab4ee url("../fruitiger-bg.jpg") center top / cover fixed;
+}
+
+a {
+  color: #0a5fae;
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+}
+
+a:hover {
+  color: #ff6a00;
+}
+
+/* ---------- the fixed-width layout ---------- */
+
+.aero {
+  width: min(980px, calc(100% - 24px));
+  margin: 18px auto 0;
+}
+
+.aero-head {
+  position: relative;
+  padding: 22px 26px 18px;
+  border: 1px solid #fff;
+  border-radius: 16px 16px 0 0;
+  background: var(--gloss), linear-gradient(180deg, #45b2f2 0%, #1677c4 100%);
+  box-shadow: 0 6px 20px -8px rgb(0 40 90 / 0.7);
+  overflow: hidden;
+}
+
+/* a shiny swoosh across the header, very web 2.0 */
+.aero-head::after {
+  content: "";
+  position: absolute;
+  right: -60px;
+  bottom: -120px;
+  width: 420px;
+  height: 200px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgb(160 255 120 / 0.55), transparent 70%);
+}
+
+.aero-logo {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  color: #fff;
+  text-decoration: none;
+}
+
+.aero-logo:hover {
+  color: #fff;
+}
+
+.aero-logo img {
+  width: 64px;
+  height: 64px;
+  border: 3px solid #fff;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 4px 10px rgb(0 40 90 / 0.5);
+  -webkit-box-reflect: below 3px linear-gradient(transparent 55%, rgb(255 255 255 / 0.35));
+}
+
+.aero-title {
+  font: 700 46px/1 var(--display);
+  letter-spacing: -0.03em;
+  text-shadow: 0 2px 0 #0b5c9c, 0 4px 12px rgb(0 30 70 / 0.5);
+}
+
+.aero-title span {
+  color: #a8f07a;
+}
+
+/* the "beta" badge every 2008 website had */
+.aero-beta {
+  align-self: flex-start;
+  margin-left: -6px;
+  padding: 3px 9px;
+  border: 2px solid #fff;
+  border-radius: 999px;
+  background: var(--gloss), linear-gradient(180deg, #ff9a3c, #e8460f);
+  color: #fff;
+  font: 700 12px/1 var(--display);
+  transform: rotate(-12deg);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.35);
+}
+
+.aero-tagline {
+  position: relative;
+  z-index: 1;
+  margin-top: 8px;
+  color: #e6f6ff;
+  font-style: italic;
+}
+
+/* ---------- glossy tab menu ---------- */
+
+.aero-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  padding: 6px 10px 0;
+  background: linear-gradient(180deg, #0f5a99, #0c4a80);
+  border-left: 1px solid #fff;
+  border-right: 1px solid #fff;
+}
+
+.aero-nav .nav-link {
+  padding: 7px 18px 6px;
+  border: 1px solid rgb(255 255 255 / 0.6);
+  border-bottom: 0;
+  border-radius: 9px 9px 0 0;
+  background: var(--gloss), var(--aqua);
+  color: #fff;
+  font: 700 13px/1 var(--display);
+  text-decoration: none;
+  text-shadow: 0 1px 1px rgb(0 40 90 / 0.6);
+}
+
+.aero-nav .nav-link:hover {
+  background: var(--gloss), linear-gradient(180deg, #b7f0ff, #4cc0ff);
+  color: #fff;
+}
+
+.aero-nav .nav-link.is-on {
+  background: #fff;
+  color: #0a5fae;
+  text-shadow: none;
+}
+
+.aero-nav .nav-link.is-on span,
+.aero-nav .nav-link span {
+  text-decoration: none;
+}
+
+/* ---------- scrolling ticker ---------- */
+
+.aero-ticker {
+  overflow: hidden;
+  border: 1px solid #fff;
+  border-top: 0;
+  background: linear-gradient(180deg, #fffbe0, #ffe98a);
+  color: #7a4b00;
+  font: 700 12px/26px var(--font);
+  white-space: nowrap;
+}
+
+.aero-ticker-track {
+  display: inline-flex;
+  gap: 36px;
+  padding-left: 100%;
+  animation: aero-ticker 60s linear infinite;
+}
+
+@keyframes aero-ticker {
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* ---------- two columns ---------- */
+
+.aero-cols {
+  display: grid;
+  grid-template-columns: 236px minmax(0, 1fr);
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.aero-side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.aero-box {
+  overflow: hidden;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.82);
+  box-shadow: 0 4px 14px -6px rgb(0 40 90 / 0.6);
+}
+
+.aero-box-title {
+  margin: 0;
+  padding: 5px 10px;
+  background: var(--gloss), linear-gradient(180deg, #5cc0f5, #1a83cf);
+  color: #fff;
+  font: 700 13px/1.4 var(--display);
+  text-shadow: 0 1px 1px rgb(0 40 90 / 0.6);
+}
+
+.aero-box > :not(.aero-box-title):not(.fishbowl) {
+  margin: 8px 10px;
+}
+
+.aero-small {
+  color: var(--dim);
+  font-size: 11px;
+}
+
+.aero-status {
+  list-style: none;
+  font-size: 11px;
+}
+
+.aero-status li + li {
+  margin-top: 3px;
+}
+
+/* blinkies: little 150x20 flashing badges */
+.blinkies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.blinkie {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  max-width: 100%;
+  height: 20px;
+  border: 1px solid #000;
+  font: 700 10px/1 Tahoma, Verdana, sans-serif;
+  letter-spacing: 0.04em;
+  background: var(--a);
+  animation: blink 1.2s steps(1) infinite;
+}
+
+.b1 { --a: #ff9ad5; --b: #ffd6ef; color: #9b005f; }
+.b2 { --a: #000; --b: #39ff14; color: #ff2fd0; }
+.b3 { --a: #2b78ff; --b: #8fd0ff; color: #fff; }
+.b4 { --a: #c0c0c0; --b: #fff; color: #000; }
+.b5 { --a: #ffd23f; --b: #ffef9e; color: #6a3d00; }
+.b6 { --a: #8be36b; --b: #d2ffbe; color: #1f5a10; }
+.b7 { --a: #b98cff; --b: #e3d1ff; color: #3d0f8a; }
+.b8 { --a: #0b0b0b; --b: #2a2a2a; color: #7fd3ff; }
+
+@keyframes blink {
+  0% {
+    background: var(--a);
+  }
+  50% {
+    background: var(--b);
+  }
+}
+
+.aero-ring {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 700;
+}
+
+/* the visitor counter looks like an old odometer */
+.aero-counter {
+  display: inline-block;
+  padding: 3px 8px;
+  border: 2px inset #999;
+  background: #000;
+  color: #3dff6a;
+  font: 700 20px/1 "Courier New", monospace;
+  letter-spacing: 0.25em;
+  text-shadow: 0 0 6px #3dff6a;
+}
+
+/* ---------- the fish bowl ---------- */
+
+.fishbowl {
+  position: relative;
+  height: 200px;
+  margin: 4px 0 0;
+}
+
+.fishbowl svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ---------- main content panel ---------- */
+
+.page {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+.view {
+  gap: 18px;
+  padding: 20px 22px 26px;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  background: rgb(255 255 255 / 0.88);
+  box-shadow: 0 4px 14px -6px rgb(0 40 90 / 0.6);
+}
+
+.page-head h1,
+.section h2,
+.season-greeting {
+  font-family: var(--display);
+}
+
+.page-head h1 {
+  padding-bottom: 6px;
+  border-bottom: 2px solid;
+  border-image: linear-gradient(90deg, #1a83cf, #8be36b, transparent) 1;
+  color: #0a5fae;
+  font-size: 30px;
+}
+
+.lede {
+  font-size: 13px;
+}
+
+.season-greeting {
+  margin: 0;
+  color: #ff6a00;
+  font-size: 18px;
+  font-style: italic;
+}
+
+.section h2 {
+  margin-bottom: 10px;
+  padding: 0 0 4px;
+  border-bottom: 1px dashed var(--line);
+  color: #0a5fae;
+  font-size: 18px;
+}
+
+.about p,
+.md,
+.proj-note {
+  color: var(--text);
+  font-size: 13px;
+}
+
+/* ---------- discord card: a glossy profile box ---------- */
+
+.dc {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #f4fbff;
+}
+
+.dc-banner {
+  height: 90px;
+  background: url("../fruitiger-bg.jpg") center 62% / cover;
+}
+
+.dc-avatar {
+  width: 80px;
+  height: 80px;
+  margin-top: -40px;
+  border-radius: 14px;
+  box-shadow: 0 0 0 4px #fff, 0 4px 10px rgb(0 40 90 / 0.4);
+}
+
+.dc-avatar-img {
+  border-radius: 12px;
+}
+
+.dc-status {
+  border-color: #fff;
+}
+
+.dc-name {
+  font: 700 24px/1.2 var(--display);
+  color: #0a5fae;
+}
+
+.dc-tagline {
+  font-size: 12px;
+}
+
+.dc-sep {
+  color: #8be36b;
+}
+
+/* ---------- gel buttons ---------- */
+
+.btn {
+  height: 28px;
+  padding: 0 12px;
+  border: 1px solid #5aa6d8;
+  border-radius: 999px;
+  background: var(--gloss), linear-gradient(180deg, #f4fbff, #c4e5fb);
+  color: #0a3a5c;
+  font: 700 12px/1 var(--font);
+}
+
+.btn:hover {
+  background: var(--gloss), linear-gradient(180deg, #fff, #a9dbfb);
+  color: #0a3a5c;
+}
+
+.btn-primary,
+.btn-primary:hover {
+  border-color: #2f8f1d;
+  background: var(--gloss), linear-gradient(180deg, #8de05f, #3ea52a);
+  color: #fff;
+  text-shadow: 0 1px 1px rgb(0 60 0 / 0.5);
+}
+
+/* ---------- lists ---------- */
+
+.proj-list,
+.post-list {
+  border-top: 0;
+}
+
+.proj,
+.post-row {
+  padding: 12px 0;
+  border-bottom: 1px dashed var(--line);
+}
+
+.proj h2,
+.proj h3,
+.post-row-title {
+  font-family: var(--display);
+  font-size: 17px;
+}
+
+.proj-featured h2 {
+  font-size: 22px;
+}
+
+.site-card {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--gloss), linear-gradient(180deg, #fff, #e4f3ff);
+}
+
+/* ---------- music: a windows media player playlist ---------- */
+
+.section-head {
+  margin-bottom: 0;
+  padding: 6px 10px;
+  border: 1px solid #0b0f1a;
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.18), rgb(255 255 255 / 0) 50%), linear-gradient(180deg, #3a4a63, #0b0f1a);
+}
+
+.section-head h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: #bfe6ff;
+  font-size: 13px;
+}
+
+.section-head .count {
+  color: #dff2ff;
+  font-size: 11px;
+}
+
+.library {
+  display: block;
+  border: 1px solid #0b0f1a;
+  border-top: 0;
+  background: #fff;
+}
+
+.library li + li {
+  border-top: 1px solid #e3eef7;
+}
+
+.song {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) minmax(0, 0.8fr);
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px;
+  border-radius: 0;
+}
+
+.song:hover {
+  background: #e4f3ff;
+}
+
+.song.is-playing {
+  background: linear-gradient(180deg, #cdeaff, #9fd2f5);
+}
+
+.song-art {
+  width: 34px;
+  border: 1px solid #9fcdee;
+  border-radius: 3px;
+  font-size: 14px;
+}
+
+.song-art::after {
+  display: none;
+}
+
+.song-title {
+  margin: 0;
+  font: 400 12px/1.3 var(--font);
+}
+
+.song-artist {
+  color: var(--dim);
+  font-size: 11px;
+}
+
+/* windows media player 11 style player */
+.player {
+  border-top: 1px solid #3a4a63;
+  background: var(--gloss), linear-gradient(180deg, #2b3a52 0%, #05070d 100%);
+  color: #dff2ff;
+}
+
+.player-artist,
+.player-seek {
+  color: #8fb7d6;
+}
+
+.player-btn {
+  color: #bfe6ff;
+}
+
+.player-play,
+.player-play:hover {
+  border: 1px solid #9fe0ff;
+  background: var(--gloss), radial-gradient(circle at 50% 70%, #49c4ff, #0a5fae);
+  color: #fff;
+  box-shadow: 0 0 12px #2fa8ff;
+}
+
+/* ---------- footer ---------- */
+
+.site-foot {
+  margin: 14px 0 0;
+  padding: 16px;
+  border: 1px solid #fff;
+  border-radius: 0 0 16px 16px;
+  background: rgb(255 255 255 / 0.82);
+}
+
+.buttons {
+  max-width: none;
+}
+
+/* tiny 80x15 badges, the original kind */
+.aero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.aero-badges span {
+  display: inline-flex;
+  height: 15px;
+  border: 1px solid #000;
+  font: 700 8px/13px Verdana, sans-serif;
+  text-transform: uppercase;
+}
+
+.aero-badges span::before {
+  content: "w3c";
+  padding: 0 4px;
+  background: #ff6600;
+  color: #fff;
+}
+
+.aero-badges span {
+  padding-right: 4px;
+  background: #f0f0f0;
+  color: #333;
+}
+
+.aero-badges span:nth-child(2)::before {
+  content: "2.0";
+  background: #2f9be0;
+}
+
+.aero-badges span:nth-child(3)::before {
+  content: "css";
+  background: #3ea52a;
+}
+
+.foot-note {
+  color: var(--dim);
+  font-size: 11px;
+}
+
+.embed-label {
+  color: var(--text);
+}
+
+/* sparkles that follow your mouse (made by aero.js) */
+.sparkle {
+  position: fixed;
+  z-index: 40;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  pointer-events: none;
+  background: radial-gradient(circle, #fff 0 20%, transparent 21%), conic-gradient(from 45deg, transparent 0 20deg, var(--c) 20deg 70deg, transparent 70deg 110deg, var(--c) 110deg 160deg, transparent 160deg 200deg, var(--c) 200deg 250deg, transparent 250deg 290deg, var(--c) 290deg 340deg, transparent 340deg);
+  border-radius: 50%;
+  animation: sparkle 0.8s ease-out forwards;
+}
+
+@keyframes sparkle {
+  to {
+    opacity: 0;
+    transform: translateY(14px) scale(0.3) rotate(90deg);
+  }
+}
+
+/* with "reduce motion" on, the ticker just sits still where you can read it */
+@media (prefers-reduced-motion: reduce) {
+  .aero-ticker {
+    white-space: normal;
+  }
+
+  .aero-ticker-track {
+    flex-wrap: wrap;
+    gap: 4px 24px;
+    padding: 2px 12px;
+  }
+}
+
+/* ---------- small screens ---------- */
+
+@media (max-width: 760px) {
+  .aero {
+    width: calc(100% - 16px);
+    margin-top: 8px;
+  }
+
+  .aero-title {
+    font-size: 32px;
+  }
+
+  .aero-logo img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .aero-cols {
+    grid-template-columns: 1fr;
+  }
+
+  /* on phones the sidebar goes under the page */
+  .aero-side {
+    order: 2;
+  }
+
+  .aero-nav .nav-link {
+    padding: 7px 10px 6px;
+    font-size: 12px;
+  }
+
+  .song {
+    grid-template-columns: 34px minmax(0, 1fr);
+  }
+
+  .song-artist {
+    grid-column: 2;
+  }
+}

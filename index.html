@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d0d0d">
+  <meta name="description" content="yaanscoat - Frontend | UBG | Vibe Coder | Proxies | Bypassing Internet C*ncorship">
+  <title>yaanscoat</title>
+  <link rel="icon" href="https://github.com/yaanscoat.png">
+  <!--
+    the landing page. it works out what time of year it is, then opens that site
+    (the folders next to this file). add ?stay to the url to stop it moving you,
+    or ?date=2026-12-25 to see what it would pick on another day.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Fraunces:opsz,wght@9..144,700&family=Fredoka:wght@600&family=Lora:wght@600&family=Mountains+of+Christmas:wght@700&family=Pacifico&family=Quicksand:wght@700&family=Syne:wght@700&display=swap">
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --bar: #111;
+      --raised: #161616;
+      --line: #333;
+      --text: #e5e5e5;
+      --dim: #aaa;
+      --faint: #777;
+      --accent: #e5e5e5; /* changes to the colour of the current season */
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font: 400 17px/1.6 Arial, Helvetica, sans-serif;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 56px 24px 64px;
+    }
+
+    .who {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--dim);
+      font-weight: 700;
+    }
+
+    .who img {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+    }
+
+    /* ---------- "it's spring right now" ---------- */
+
+    .now {
+      margin-top: 40px;
+    }
+
+    .now h1 {
+      font-size: clamp(38px, 7vw, 64px);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+    }
+
+    .now h1 span {
+      color: var(--accent);
+      font-family: var(--now-font, inherit);
+      font-weight: var(--now-weight, 700);
+    }
+
+    .countdown {
+      margin-top: 14px;
+      color: var(--dim);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      height: 40px;
+      padding: 0 18px;
+      border: 1px solid #575757;
+      border-radius: 6px;
+      background: var(--bar);
+      color: #fff;
+      font: inherit;
+      font-size: 15px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background: #2a2a2a;
+    }
+
+    .btn-primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #111;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent);
+      filter: brightness(1.1);
+    }
+
+    /* ---------- the year strip ---------- */
+
+    .year {
+      margin-top: 56px;
+    }
+
+    h2 {
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+      font-size: 22px;
+    }
+
+    .strip {
+      position: relative;
+      padding-top: 4px;
+    }
+
+    .row {
+      position: relative;
+      height: 34px;
+      border-radius: 6px;
+      background: var(--bar);
+    }
+
+    .row + .row {
+      margin-top: 6px;
+    }
+
+    .row-festive {
+      height: 22px;
+      background: none;
+    }
+
+    .seg {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      padding: 0 8px;
+      border-radius: 6px;
+      background: var(--c);
+      color: #111;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+      text-decoration: none;
+      opacity: 0.85;
+    }
+
+    .seg:hover,
+    .seg.is-now {
+      opacity: 1;
+    }
+
+    .row-festive .seg {
+      padding: 0;
+      border-radius: 4px;
+    }
+
+    .months {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      margin-top: 8px;
+      color: var(--faint);
+      font-size: 12px;
+    }
+
+    .today {
+      position: absolute;
+      top: -6px;
+      bottom: -26px;
+      width: 2px;
+      margin-left: -1px;
+      background: #fff;
+      pointer-events: none;
+    }
+
+    .today span {
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .legend {
+      margin-top: 40px;
+      color: var(--faint);
+      font-size: 14px;
+    }
+
+    /* ---------- every site ---------- */
+
+    .group {
+      margin-top: 48px;
+    }
+
+    .sites {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 10px;
+    }
+
+    .site {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--bar);
+      text-decoration: none;
+      transition:
+        background 0.2s,
+        border-color 0.2s;
+    }
+
+    .site:hover {
+      border-color: var(--c);
+      background: var(--raised);
+    }
+
+    .site.is-now {
+      border-color: var(--c);
+    }
+
+    .site-top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .site-name {
+      color: var(--c);
+      font-family: var(--f, inherit);
+      font-size: 24px;
+      font-weight: var(--w, 700);
+      line-height: 1.2;
+    }
+
+    .now-tag {
+      padding: 1px 8px;
+      border-radius: 99px;
+      background: var(--c);
+      color: #111;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .site-when {
+      color: var(--dim);
+      font-size: 14px;
+    }
+
+    .site-about {
+      color: var(--faint);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .swatch {
+      display: flex;
+      gap: 4px;
+      margin-top: 4px;
+    }
+
+    .swatch span {
+      width: 14px;
+      height: 14px;
+      border: 1px solid #0006;
+      border-radius: 50%;
+      background: var(--s);
+    }
+
+    footer {
+      margin-top: 64px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--faint);
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .wrap {
+        padding: 36px 16px 48px;
+      }
+
+      .seg {
+        padding: 0 4px;
+        font-size: 0; /* too small for words on phones, the colours and list below explain it */
+      }
+
+      .months span:nth-child(even) {
+        visibility: hidden;
+      }
+    }
+  </style>
+  <script src="seasons.js"></script>
+</head>
+<body>
+  <div class="wrap">
+    <a class="who" href="https://github.com/yaanscoat" target="_blank" rel="noreferrer">
+      <img src="https://github.com/yaanscoat.png" alt="" width="28" height="28">
+      yaanscoat
+    </a>
+
+    <section class="now" aria-live="polite">
+      <h1>it's <span class="now-name">…</span> right now.</h1>
+      <p class="countdown"></p>
+      <div class="actions">
+        <a class="btn btn-primary open-now" href="all-time/">open it now</a>
+        <button class="btn stay" type="button">stay here and look around</button>
+      </div>
+    </section>
+
+    <section class="year" aria-labelledby="year-title">
+      <h2 id="year-title">the year</h2>
+      <div class="strip">
+        <div class="row row-season" aria-label="seasons"></div>
+        <div class="row row-festive" aria-label="special times"></div>
+        <div class="today"><span>today</span></div>
+      </div>
+      <div class="months" aria-hidden="true"></div>
+    </section>
+
+    <section class="group">
+      <h2>special times</h2>
+      <div class="sites sites-festive"></div>
+    </section>
+
+    <section class="group">
+      <h2>seasons</h2>
+      <div class="sites sites-season"></div>
+    </section>
+
+    <section class="group">
+      <h2>any time</h2>
+      <div class="sites sites-always"></div>
+    </section>
+
+    <footer class="note"></footer>
+  </div>
+
+  <script>
+    // how each site's name looks on this page: its colour and its heading font
+    const LOOKS = {
+      "new-year": { color: "#ffd166", font: "Syne" },
+      christmas: { color: "#e5484d", font: "Mountains of Christmas" },
+      valentines: { color: "#ff5c8a", font: "Pacifico", weight: 400 },
+      "frutiger-aero": { color: "#5cc8ff", font: "Segoe UI", weight: 600 },
+      easter: { color: "#b8a1ff", font: "Baloo 2" },
+      halloween: { color: "#f2a65e", font: "Fraunces" },
+      summer: { color: "#ffb347", font: "Fredoka", weight: 600 },
+      autumn: { color: "#e9843f", font: "Fraunces" },
+      winter: { color: "#9fd3ff", font: "Lora", weight: 600 },
+      spring: { color: "#f6a6c1", font: "Quicksand" },
+      "all-time": { color: "#e5e5e5" },
+    };
+
+    const params = new URLSearchParams(location.search);
+    const today = params.get("date") ? new Date(params.get("date") + "T12:00") : new Date();
+    const current = seasonFor(today);
+    const looks = (s) => LOOKS[s.id] ?? LOOKS["all-time"];
+    // opened straight from your files, folders need "index.html" on the end
+    const linkTo = (s) => `${s.id}/${location.protocol === "file:" ? "index.html" : ""}`;
+    const esc = (text) => String(text).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+
+    // ---------- "it's spring right now" ----------
+    const look = looks(current);
+    document.documentElement.style.setProperty("--accent", look.color);
+    document.documentElement.style.setProperty("--now-font", look.font ? `"${look.font}"` : "inherit");
+    document.documentElement.style.setProperty("--now-weight", look.weight ?? 700);
+    document.querySelector(".now-name").textContent = current.name;
+    document.querySelector('meta[name="theme-color"]').content = look.color;
+    const openNow = document.querySelector(".open-now");
+    openNow.href = linkTo(current) + location.hash;
+    openNow.textContent = `open the ${current.name} site`;
+
+    // ---------- move to today's site after a few seconds ----------
+    // not if the url has ?stay, or you came back here with the back button
+    const cameBack = performance.getEntriesByType?.("navigation")[0]?.type === "back_forward";
+    const countdown = document.querySelector(".countdown");
+    let timer = null;
+
+    function stay() {
+      clearInterval(timer);
+      countdown.textContent = "pick any time of year below, or open today's site.";
+      document.querySelector(".stay").hidden = true;
+    }
+
+    if (params.has("stay") || cameBack) {
+      stay();
+    } else {
+      let seconds = 3;
+      const tick = () => {
+        if (seconds === 0) return location.replace(linkTo(current) + location.hash);
+        countdown.textContent = `opening the ${current.name} site in ${seconds}…`;
+        seconds--;
+      };
+      tick();
+      timer = setInterval(tick, 1000);
+      document.querySelector(".stay").addEventListener("click", stay);
+    }
+
+    // ---------- the year strip ----------
+    const year = today.getFullYear();
+    const first = new Date(year, 0, 1);
+    const days = (new Date(year + 1, 0, 1) - first) / 86400000;
+    const dayOf = (date) => Math.round((new Date(date.getFullYear(), date.getMonth(), date.getDate()) - first) / 86400000);
+
+    // walks through every day of the year and groups days that show the same site
+    function runs(kind) {
+      const list = [];
+      for (let i = 0; i < days; i++) {
+        const date = new Date(year, 0, 1 + i);
+        const season = SEASONS.find((s) => s.kind === kind && isActive(s, date));
+        const lastRun = list[list.length - 1];
+        if (season && lastRun?.season === season && lastRun.end === i) lastRun.end = i + 1;
+        else if (season) list.push({ season, start: i, end: i + 1 });
+      }
+      return list;
+    }
+
+    function drawRow(row, kind) {
+      row.innerHTML = runs(kind)
+        .map(({ season, start, end }) => {
+          const isNow = season === current;
+          return `<a class="seg ${isNow ? "is-now" : ""}" href="${linkTo(season)}" title="${esc(season.name)} (${esc(seasonWhen(season))})"
+            style="--c:${looks(season).color};left:${(start / days) * 100}%;width:${((end - start) / days) * 100}%">${(end - start) / days > 0.09 ? esc(season.name) : ""}</a>`;
+        })
+        .join("");
+    }
+    drawRow(document.querySelector(".row-season"), "season");
+    drawRow(document.querySelector(".row-festive"), "festive");
+    document.querySelector(".today").style.left = `${((dayOf(today) + 0.5) / days) * 100}%`;
+    document.querySelector(".months").innerHTML = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"].map((m) => `<span>${m}</span>`).join("");
+
+    document.querySelector(".note").textContent = `special times win over seasons. seasons are for the ${HEMISPHERE === "south" ? "southern hemisphere, like australia (summer is december to february)" : "northern hemisphere (summer is june to august)"}.`;
+
+    // ---------- every site ----------
+    function card(season) {
+      const l = looks(season);
+      const isNow = season === current;
+      return `
+        <a class="site ${isNow ? "is-now" : ""}" href="${linkTo(season)}" style="--c:${l.color};--f:${l.font ? `'${l.font}'` : "inherit"};--w:${l.weight ?? 700}">
+          <span class="site-top">
+            <span class="site-name">${esc(season.name)}</span>
+            ${isNow ? `<span class="now-tag">now</span>` : ""}
+          </span>
+          <span class="site-when">${esc(seasonWhen(season))}</span>
+          <span class="site-about">${esc(season.about)}</span>
+          <span class="swatch" aria-hidden="true">${season.colors.map((c) => `<span style="--s:${c}"></span>`).join("")}</span>
+        </a>`;
+    }
+    for (const kind of ["festive", "season", "always"]) {
+      document.querySelector(`.sites-${kind}`).innerHTML = SEASONS.filter((s) => s.kind === kind).map(card).join("");
+    }
+  </script>
+</body>
+</html>
